@@ -54,22 +54,27 @@ int main() {
     cout << endl;
 */
 
-    std::vector<int64_t> ans;
+    // std::vector<int64_t> ans;
+    int64_t num = m;
+    int64_t ans = 0;
     rep(i, va.size()) {
         if ( va[i] > k ) break;
-
-        rep(j, vb.size()) {
+        // rep(j, vb.size()) {
+        for (int64_t j = num; j >= 0; --j) {
             if ( va[i]+vb[j] <= k ) {
-                ans.push_back(i+j);
-                // cout << "a " << i << " " << j << " " << i+j << endl;
-            } else {
+                num = j;
+                ans = max(ans, i+j);
                 break;
-            }
+                // ans.push_back(i+j);
+                // cout << "a " << i << " " << j << " " << i+j << endl;
+            }/* else {
+                break;
+            }*/
         }
     }
 
-    Sort_rev(ans);
-    cout << ans[0] << endl;
+    // Sort_rev(ans);
+    cout << ans << endl;
     return 0;
 }
 /*
