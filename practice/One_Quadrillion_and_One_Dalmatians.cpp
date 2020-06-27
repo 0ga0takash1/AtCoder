@@ -31,17 +31,34 @@ int main() {
     int64_t n;
     cin >> n;
 
+    int64_t alp = abc.length();
+    std::vector<int64_t> v;
+    // v.push_back(alp);
+    int64_t num = 1;
+    v.push_back(num);
+    int64_t nn = n;
+    while (1) {
+        num *= alp;
+        nn -= num;
+        v.push_back(num);
+        if (nn < 0) break;
+    }
+
+
+
+
+/*
     if ( n <= abc.length()) {
         cout << abc.at(n-1) << endl;
         return 0;
     }
     std::vector<int64_t> v, v2;
-    v.push_back(abc.length());
+    // v.push_back(abc.length());
     // cout << "cc" << endl;
 
     int64_t num = abc.length();
-    v.push_back(1);
-    v2.push_back(abc.length());
+    v.push_back(num);
+    v2.push_back(num);
     while (1) {
         rep(i, v.size()) {
             num *= abc.length();
@@ -64,7 +81,7 @@ int main() {
             cout << abc.at((num2-1)%( v.at( v.size()-(i+1)) ));
         }
     }
-
+*/
 /*
     Graph G(26);
     rep(i, 26) {

@@ -19,16 +19,31 @@ template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), nu
 // π M_PI
 // deg = rad*180/M_PI
 
-int main() {
-    string s1;
-    cin >> s1;
-
-    if (s1[0] >= 'a' && s1[0] <= 'z') {
-        cout << "small" << endl;
-    } else if(s1[0] >= 'A' && s1[0] <= 'Z') {
-        cout << "large" << endl;
-    } else if(s1[0] >= '0') {
-        cout << "number" << endl;
+vector<int64_t> enum_div(int64_t n) {
+    vector<int64_t> ret;
+    for(int i = 1 ; i*i <= n ; ++i){
+        if(n%i == 0){
+            ret.push_back(i);
+            // cout << "i " << i;
+            if(/*i != 1 &&*/ i*i != n){
+                ret.push_back(n/i);
+                // cout << " n/i " << n/i << endl;
+            }
+        }
     }
+    return ret;
+}
+
+int main() {
+    int64_t n;
+    cin >> n;
+    int64_t ans = 0;
+    rep2(i, n) {
+        // cout << "I" << i << endl;
+        std::vector<int64_t> v = enum_div(i);
+        // cout << "a " << v.size() << endl;
+        ans += i*v.size();
+    }
+    cout << ans << endl;
     return 0;
 }
