@@ -38,12 +38,23 @@ int main() {
     int64_t n;
     cin >> n;
     int64_t ans = 0;
+    /*
     rep2(i, n) {
         // cout << "I" << i << endl;
         std::vector<int64_t> v = enum_div(i);
         cout << "a " << v.size() << endl;
         // ans += i*v.size();
     }
-    // cout << ans << endl;
+*/
+    int64_t num = 0;
+    rep2(j, n) {
+        rep2(i, n) {
+            if ( i%j == 0 ) {
+                num++;
+            }
+        }
+        ans += j;
+    }
+    cout << ans << endl;
     return 0;
 }
