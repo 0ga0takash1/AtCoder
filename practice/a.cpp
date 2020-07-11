@@ -20,15 +20,5 @@ template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), nu
 // deg = rad*180/M_PI
 
 int main() {
-    string s1;
-    cin >> s1;
-
-    if (s1[0] >= 'a' && s1[0] <= 'z') {
-        cout << "small" << endl;
-    } else if(s1[0] >= 'A' && s1[0] <= 'Z') {
-        cout << "large" << endl;
-    } else if(s1[0] >= '0') {
-        cout << "number" << endl;
-    }
     return 0;
 }

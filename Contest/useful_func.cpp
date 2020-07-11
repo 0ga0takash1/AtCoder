@@ -6,10 +6,16 @@ typedef int64_t i6;
 
 #define rep(i, n) for (int64_t i = 0; i < n; ++i)
 #define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
+#define repb(i, l, n) for (int64_t i = l; i < n; ++i)
+#define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
 #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
+
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
+template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
 
 // π M_PI
 // deg = rad*180/M_PI
@@ -27,6 +33,17 @@ const int64_t INF = 0x3fffffffffffffff;
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 
+/*----------------------------------------------------------------------*/
+void Alphabet (char s) {
+    if (s >= 'a' && s <= 'z') {
+        cout << "small" << endl;
+    } else if(s >= 'A' && s <= 'Z') {
+        cout << "large" << endl;
+    } else if(s >= '0') {
+        cout << "number" << endl;
+    }
+    return;
+}
 /*----------------------------------------------------------------------*/
 // 最大公約数
 int64_t gcd(int64_t a, int64_t b) {
@@ -262,15 +279,6 @@ int64_t BFS(vector<vector<int64_t> > grid) {
     }
 }
 /*----------------------------------------------------------------------*/
-template<typename V,typename T>
-T find_num(V v, T num) {
-    if ( find(ALL(v), num) == v.end() ) {
-        return false;
-    } else {
-        return true;
-    }
-}
-/*----------------------------------------------------------------------*/
 
 typedef std::vector<std::vector<int64_t> > Graph;
 
@@ -289,6 +297,18 @@ void bfs ( Graph G ) {
                 seen[see] = 1;
             }
         }
+    }
+}
+
+vector<int64_t> seen(INF, 0);
+void dfs(Graph G, int v) {
+    seen[v] = true; // v を訪問済にする
+
+    // v から行ける各頂点 next_v について
+    // for (auto next_v : G[v]) {
+    rep(i, G[v].size()) {
+        if (seen[G[v].at(i)]) continue; // next_v が探索済だったらスルー
+        dfs(G, G[v].at(i)); // 再帰的に探索
     }
 }
 /*----------------------------------------------------------------------*/
