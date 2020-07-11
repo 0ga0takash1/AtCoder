@@ -305,7 +305,12 @@ void dfs(Graph G, int v) {
     seen[v] = true; // v を訪問済にする
 
     // v から行ける各頂点 next_v について
-    // for (auto next_v : G[v]) {
+    /*
+    for (auto next_v : G[v]) {
+        if (seen[next_v]) continue; // next_v が探索済だったらスルー
+        dfs(G, next_v); // 再帰的に探索
+    }*/
+
     rep(i, G[v].size()) {
         if (seen[G[v].at(i)]) continue; // next_v が探索済だったらスルー
         dfs(G, G[v].at(i)); // 再帰的に探索

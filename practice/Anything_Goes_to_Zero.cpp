@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <string>
 using namespace std;
 
 typedef long long ll;
@@ -66,6 +65,12 @@ int64_t popcount (int64_t n, int64_t ans) {
     }
 }
 
+static int PopCount (int64_t n) {
+    n = n - ((n >> 1) & 0x55555555);
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+    return (int)(((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24);
+}
+
 int main() {
     int64_t n;
     cin >> n;
@@ -85,8 +90,9 @@ int main() {
             // one_num--;
             num -= pow(2, (s.length()-i-1));
         }
-        int64_t ans = 0;
-        cout << popcount(num, ans) << endl;
+        cout << PopCount(num) << endl;
+        // int64_t ans = 0;
+        // cout << popcount(num, ans) << endl;
     }
     return 0;
 }
