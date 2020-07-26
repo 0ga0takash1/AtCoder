@@ -26,6 +26,15 @@ int main() {
     int64_t kk = 1;
     rep(i, n) {
         cin >> a[i];
+    }
+    repb(i, k, n) {
+        int64_t ans = 0;
+        if ( a[i] > a[i-k] ) ans = 1;
+        cout << ( ans ? "Yes" : "No" ) << endl;
+    }
+
+
+        /*
         if ( i < k ) {
             kk *= a[i];
             if ( i == k-1 ) {
@@ -34,8 +43,8 @@ int main() {
                 // cout << "a " << v.at(v.size()-1) << endl;
             }
         } else {
-            kk /= a[i-k];
-            v.push_back(kk*a[i]);
+            kk = kk/a[i-k]*a[i];
+            v.push_back(kk);
             // cout << "a " << i << " " << i-k << endl;
             // cout << "b " << a[i-k] << " " << a[i] << endl;
             // cout << "c " << v.at(v.size()-1) << endl;
@@ -48,6 +57,6 @@ int main() {
             ans = 0;
         }
         cout << ( ans ? "Yes" : "No" ) << endl;
-    }
+    }*/
     return 0;
 }
