@@ -29,33 +29,33 @@ int main() {
     cin >> n;
     string s;
     cin >> s;
-    
-    int64_t ans = 0;
-    int64_t r = n-1;
-    rep(i, s.length()) {
-        if ( s[i] == 'R' ) continue;
-        while( r>=0 && s[r]=='W' ) {
-            r--;
-        }
-        if(i<r){
-            swap(s[i],s[r]);
-            ans++;
-        }
-    }
-    cout << ans << endl;
-    /*
-    int64_t W_num = 0;
-    int64_t R_num = 0;
-    int64_t p_num = 0;
-    rep(i, s.length()) {
-        if (s[i] == 'W') W_num++;
-        if (s[i] == 'R') R_num++;
+
+
+    int64_t W = 0;
+    int64_t R = 0;
+    int64_t p = 0;
+    rep(i, n) {
+        if (s[i] == 'W') W++;
+        if (s[i] == 'R') R++;
         if ( i <= s.length()-1
             && s[i] == 'W' && s[i+1] == 'R' ) {
-            p_num++;
+            p++;
         }
     }
 
+    // std::vector<int64_t> ans;
+    int64_t ans = R;
+    int64_t W_num = 0;
+    // int64_t R_num = 0;
+    rep(i, n) {
+        if (s[i] == 'W') W_num++;
+        if (s[i] == 'R') R--;
+
+        chmin(ans, max(W_num, R));
+    }
+    chmin(ans, W);
+    cout << ans << endl;
+    /*
     int64_t ans = 0;
     if ( W_num != n
         && R_num != n
