@@ -52,17 +52,42 @@ const int64_t INF = 0x3fffffffffffffff;
 int main() {
     int64_t n;
     cin >> n;
-    std::vector<int64_t> v;
-    v.push_back(7);
-    while (v.at(v.size()-1) <= 7777777777) {
-        enum_div(v.at(v.size()-1));
-        v.push_back((v.at(v.size()-1)*10)+7);
+    if ( n%2 != 0 ) {
+        int64_t num = 7;
+        repb(i, 1, 10000000) {
+            if ( num%n == 0 ) {
+                cout << i << endl;
+                return 0;
+            }
+            num = num*10+7;
+            num %= n;
+        }
     }
+    cout << -1 << endl;
     /*
     if ( n%2 == 0 ) {
         cout << -1 << endl;
     } else {
-
+        int64_t num = 7;
+        repb(i, 1, 10000000) {
+            if (num%n == 0) {
+                cout << i << endl;
+                return 0;
+            }
+            num = num*10+7;
+            num %= n;
+        }
+        cout << -1 << endl;
+        /*
+        std::vector<int64_t> v;
+        v.push_back(7);
+        int64_t ans = 1;
+        while (v.at(v.size()-1) <= INF) {
+            if (v.at(v.size()-1)%n == 0) break;
+            // enum_div(v.at(v.size()-1));
+            v.push_back( ((v.at(v.size()-1)*10)+7)%7 );
+            ans++;
+        }
     }*/
     return 0;
 }
