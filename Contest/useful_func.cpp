@@ -107,6 +107,20 @@ vector<int64_t> enum_div(int64_t n) {
     return ret;
 }
 /*----------------------------------------------------------------------*/
+// エラトステネスのふるい
+std::vector<int64_t> Eratosthenes( int64_t n ) {
+    std::vector<int64_t> is_prime(n+1, 1);
+
+    std::vector<int64_t> P;
+    repb2(i, 2, n) {
+        if( is_prime[i] ) {
+            for( int j = 2 * i; j <= n; j += i ) is_prime[j] = 0;
+            P.push_back(i);
+        }
+    }
+    return P;
+}
+/*----------------------------------------------------------------------*/
 
 int64_t nCr(int64_t n , int64_t r) {
     if ( n == r || n == 1 || r == 0 ) {

@@ -1,3 +1,9 @@
+/*---------------------------------------------*/
+/*
+    ABC176 D
+ */
+/*---------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -21,7 +27,7 @@ template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), nu
 void search ( int64_t h, int64_t w,
              int64_t ch, int64_t cw,
              int64_t dh, int64_t dw, Graph G ) {
-    std::vector<std::vector<int64_t > > seen( h, std::vector<int64_t>(w, 0) );
+    std::vector<std::vector<int64_t> > seen( h, std::vector<int64_t>(w, 0) );
     rep(i, h) {
         rep(j, w) {
             if ( G[i][j] == 0 ) {
@@ -32,6 +38,7 @@ void search ( int64_t h, int64_t w,
     queue<pair<int64_t, int64_t> > q;
     q.push(make_pair(ch, cw));
     int64_t ans = 0;
+    std::vector<std::vector<pair<int64_t, int64_t>> > see(INF);
     while (1) {
         while ( !q.empty() ) {
             int64_t cch = q.front().first;
