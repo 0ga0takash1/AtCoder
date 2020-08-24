@@ -45,6 +45,7 @@ void search ( int64_t h, int64_t w,
             int64_t ccw = q.front().second;
             seen[cch][ccw] = 1;
             q.pop();
+            /*
             if ( cch > 0 && seen[cch-1][ccw] == 0 ) {
                 q.push(make_pair(cch-1, ccw));
                 seen[cch-1][ccw] = 1;
@@ -60,6 +61,13 @@ void search ( int64_t h, int64_t w,
             if ( ccw < h-1 && seen[cch][ccw+1] == 0 ) {
                 q.push(make_pair(cch, ccw+1));
                 seen[cch][ccw+1] = 1;
+            }*/
+            int64_t hh[] = {-1, 0, 1, 0};
+            int64_t ww[] = {0, -1, 0, 1};
+            rep(i, 4) {
+                if ( 0 <= cch+dh[i] && cch+dh[i] <= h-1 ) {
+
+                }
             }
 
             if ( seen[dh][dw] ) {
@@ -71,6 +79,35 @@ void search ( int64_t h, int64_t w,
     }
 
 
+    return;
+}
+
+void search2 ( int64_t h, int64_t w,
+             int64_t ch, int64_t cw,
+             int64_t dh, int64_t dw, Graph G ) {
+    std::vector<std::vector<int64_t> > pos_cost( h, std::vector<int64_t>(w, INF) );
+    pos_cost[ch][cw] = 0;
+    deque<pair<int64_t, int64_t> > q;
+    q.emplace_front(ch, cw);
+    while ( !q.empty() ) {
+        int64_t current_h = q.front().first;
+        int64_t current_w = q.front().second;
+        if ( G[current_h][current_w] == 0 ) continue;
+        int64_t cost = pos_cost[current_h][current_w];
+        if ( pos_cost[current_h][current_w] < cost ) {
+            /* code */
+        }
+        q.pop();
+        int64_t hh[] = {-1, 0, 1, 0};
+        int64_t ww[] = {0, -1, 0, 1};
+        rep(i, 4) {
+            int64_t sh = current_h+dh[i];
+            int64_t sw = current_w+dw[i];
+            if ( 0 <= sh && sh <= h-1 && 0 <= sw && sw <= w-1 ) {
+
+            }
+        }
+    }
     return;
 }
 
