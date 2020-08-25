@@ -8,7 +8,7 @@ EXES = $(basename $(wildcard *.cpp) )
 ## commands and options
 CC      = gcc
 PP      = g++
-CFLAGS  =
+CFLAGS  = 
 
 ## make rules
 all:	$(EXES)

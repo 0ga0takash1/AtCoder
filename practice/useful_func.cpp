@@ -21,8 +21,8 @@ double rad_to_deg( double rad ) {
     return (rad*180)/M_PI;
 }
 
-const int inf = 0x3fffffff;
-const ll INF = 0x3fffffffffffffff;
+const int64_t inf = 0x3fffffff;
+const int64_t INF = 0x3fffffffffffffff;
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 

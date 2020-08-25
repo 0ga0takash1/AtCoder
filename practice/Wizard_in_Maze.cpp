@@ -23,7 +23,7 @@ typedef std::vector<std::vector<int64_t> > Graph;
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
 template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
-
+/*
 void search ( int64_t h, int64_t w,
              int64_t ch, int64_t cw,
              int64_t dh, int64_t dw, Graph G ) {
@@ -61,7 +61,7 @@ void search ( int64_t h, int64_t w,
             if ( ccw < h-1 && seen[cch][ccw+1] == 0 ) {
                 q.push(make_pair(cch, ccw+1));
                 seen[cch][ccw+1] = 1;
-            }*/
+            }
             int64_t hh[] = {-1, 0, 1, 0};
             int64_t ww[] = {0, -1, 0, 1};
             rep(i, 4) {
@@ -81,34 +81,54 @@ void search ( int64_t h, int64_t w,
 
     return;
 }
+*/
+const int64_t INF = 0x3fffffffffffffff;
 
-void search2 ( int64_t h, int64_t w,
+int64_t search2 ( int64_t h, int64_t w,
              int64_t ch, int64_t cw,
-             int64_t dh, int64_t dw, Graph G ) {
+             int64_t dh, int64_t dw, std::vector<string> s ) {
     std::vector<std::vector<int64_t> > pos_cost( h, std::vector<int64_t>(w, INF) );
     pos_cost[ch][cw] = 0;
-    deque<pair<int64_t, int64_t> > q;
-    q.emplace_front(ch, cw);
+    std::deque<pair<int64_t, int64_t> > q;
+    q.emplace_front( make_pair(ch, cw) );
     while ( !q.empty() ) {
         int64_t current_h = q.front().first;
         int64_t current_w = q.front().second;
-        if ( G[current_h][current_w] == 0 ) continue;
+        q.pop_front();
+        // if ( s[current_h][current_w] == '#' ) continue;
         int64_t cost = pos_cost[current_h][current_w];
-        if ( pos_cost[current_h][current_w] < cost ) {
-            /* code */
-        }
-        q.pop();
         int64_t hh[] = {-1, 0, 1, 0};
         int64_t ww[] = {0, -1, 0, 1};
         rep(i, 4) {
-            int64_t sh = current_h+dh[i];
-            int64_t sw = current_w+dw[i];
+            int64_t sh = current_h+hh[i];
+            int64_t sw = current_w+ww[i];
             if ( 0 <= sh && sh <= h-1 && 0 <= sw && sw <= w-1 ) {
+                if ( s[sh][sw] == '.' ) {
+                    chmin(pos_cost[sh][sw], cost);
+                    q.emplace_front( make_pair(ch, cw) );
+                }
+            }
+        }
 
+        repb(i, -2, 2) {
+            repb(j, -2, 2) {
+                int64_t sh = current_h+i;
+                int64_t sw = current_w+j;
+                if ( 0 <= sh && sh <= h-1 && 0 <= sw && sw <= w-1 ) {
+                    if ( s[sh][sw] == '.' ) {
+                        if ( pos_cost[sh][sw] > cost+1 ) {
+                            pos_cost[sh][sw] = cost+1;
+                            q.emplace_back( make_pair(ch, cw) );
+                        }
+                        // chmin(pos_cost[sh][sw], cost+1);
+                    }
+                }
             }
         }
     }
-    return;
+    int64_t ans = pos_cost[dh][dw];
+    if ( ans == INF) ans = -1;
+    return ans;
 }
 
 int main() {
@@ -116,24 +136,54 @@ int main() {
     int64_t ch, cw;cin >> ch >> cw;
     int64_t dh, dw;cin >> dh >> dw;
     ch--;cw--;dh--;dw--;
-    Graph G(h);
+    std::vector<string> s(h);
     int64_t alldot = 1;
-    rep(i, h) {
-        rep(j, w) {
-            char s;
-            cin >> s;
-            if ( s == '.' ) {
-                G[i].push_back(1);
-            } else if ( s == '#' ) {
-                G[i].push_back(0);
-                alldot = 0;
-            }
-        }
-    }
+    rep(i, h) cin >> s[i];
 
     int64_t ans = 0;
     if (!alldot) {
-        search(h, w, ch, cw, dh, dw, G);
+        // ans = search(h, w, ch, cw, dh, dw, s);
+        std::vector<std::vector<int64_t> > pos_cost( h, std::vector<int64_t>(w, INF) );
+        pos_cost[ch][cw] = 0;
+        std::deque<pair<int64_t, int64_t> > q;
+        q.emplace_front( make_pair(ch, cw) );
+        while ( !q.empty() ) {
+            int64_t current_h = q.front().first;
+            int64_t current_w = q.front().second;
+            q.pop_front();
+            // if ( s[current_h][current_w] == '#' ) continue;
+            int64_t cost = pos_cost[current_h][current_w];
+            int64_t hh[] = {-1, 0, 1, 0};
+            int64_t ww[] = {0, -1, 0, 1};
+            rep(i, 4) {
+                int64_t sh = current_h+hh[i];
+                int64_t sw = current_w+ww[i];
+                if ( 0 <= sh && sh <= h-1 && 0 <= sw && sw <= w-1 ) {
+                    if ( s[sh][sw] == '.' ) {
+                        chmin(pos_cost[sh][sw], cost);
+                        q.emplace_front( make_pair(ch, cw) );
+                    }
+                }
+            }
+
+            repb(i, -2, 2) {
+                repb(j, -2, 2) {
+                    int64_t sh = current_h+i;
+                    int64_t sw = current_w+j;
+                    if ( 0 <= sh && sh <= h-1 && 0 <= sw && sw <= w-1 ) {
+                        if ( s[sh][sw] == '.' ) {
+                            if ( pos_cost[sh][sw] > cost+1 ) {
+                                pos_cost[sh][sw] = cost+1;
+                                q.emplace_back( make_pair(ch, cw) );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        int64_t ans = pos_cost[dh][dw];
+        if ( ans == INF) ans = -1;
+        return ans;
     }
     cout << ans << endl;
     return 0;
