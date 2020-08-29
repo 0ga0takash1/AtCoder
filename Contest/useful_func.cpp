@@ -146,7 +146,7 @@ int64_t nCr(int64_t n , int64_t r) {
 }
 /*----------------------------------------------------------------------*/
 
-const int64_t MOD = 1e9 + 7;
+const int64_t MOD = 1e9+7;
 
 int64_t Mod(int64_t a, int64_t mod) {
     return (a%mod + mod)%mod;
@@ -259,7 +259,7 @@ struct Corr {
     int64_t depth;
 };
 queue<Corr> q;
-int64_t BFS(vector<vector<int64_t> > grid) {
+void BFS(vector<vector<int64_t> > grid) {
     // 既に探索の場所を1，探索していなかったら0を格納する配列
     vector<vector<int64_t> > ispassed(grid.size(), vector<int64_t>(grid[0].size(), false));
     // このような記述をしておくと，この後のfor文が綺麗にかける
@@ -291,6 +291,7 @@ int64_t BFS(vector<vector<int64_t> > grid) {
             q.push(next);
         }
     }
+    return;
 }
 /*----------------------------------------------------------------------*/
 
@@ -299,7 +300,8 @@ typedef std::vector<std::vector<int64_t> > Graph;
 void bfs ( Graph G ) {
     std::vector<int64_t> seen(G.size(), 0);
     queue<int64_t> q;
-    q.push(0);
+    int64_t start_num = 0;
+    q.push(start_num);
     while ( !q.empty() ) {
         int64_t num = q.front();
         seen[num] = 1;
