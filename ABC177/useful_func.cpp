@@ -259,7 +259,7 @@ struct Corr {
     int64_t depth;
 };
 queue<Corr> q;
-int64_t BFS(vector<vector<int64_t> > grid) {
+void BFS(vector<vector<int64_t> > grid) {
     // 既に探索の場所を1，探索していなかったら0を格納する配列
     vector<vector<int64_t> > ispassed(grid.size(), vector<int64_t>(grid[0].size(), false));
     // このような記述をしておくと，この後のfor文が綺麗にかける
@@ -291,6 +291,7 @@ int64_t BFS(vector<vector<int64_t> > grid) {
             q.push(next);
         }
     }
+    return;
 }
 /*----------------------------------------------------------------------*/
 

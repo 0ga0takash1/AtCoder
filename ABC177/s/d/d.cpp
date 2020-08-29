@@ -21,12 +21,11 @@ const int64_t INF = 0x3fffffffffffffff;
 
 std::vector<int64_t> do_look(200000, 0);
 
-int64_t bfs ( Graph G , int64_t a ) {
+int64_t bfs ( Graph G , int64_t start_num ) {
     std::vector<int64_t> seen(G.size(), 0);
     queue<int64_t> q;
-    q.push(a);
+    q.push(start_num);
     int64_t ans = 1;
-    // cout << a << " " << endl;
     while ( !q.empty() ) {
         int64_t num = q.front();
         seen[num] = 1;
@@ -35,14 +34,12 @@ int64_t bfs ( Graph G , int64_t a ) {
             int64_t see = G[num].at(i);
             if ( seen[see] == 0 ) {
                 q.push(see);
-                // cout << see << " " << endl;
                 seen[see] = 1;
                 do_look[see] = 0;
                 ans++;
             }
         }
     }
-    // cout << endl;
     return ans;
 }
 
@@ -54,15 +51,20 @@ int main() {
     rep(i, m) {
         cin >> a[i] >> b[i];
         a[i]--;b[i]--;
-        do_look[a[i]] == 1;
-        do_look[b[i]] == 1;
+        do_look[a[i]] = 1;
+        do_look[b[i]] = 1;
         G[a[i]].push_back(b[i]);
         G[b[i]].push_back(a[i]);
     }
+
     std::vector<int64_t> v;
+    int64_t sum = 0;
     rep(i, n) {
         if ( do_look[i] == 1 ) {
-            v.push_back( bfs(G, i) );
+            int64_t num = bfs(G, i);
+            sum += num;
+            v.push_back( num );
+            if (num >= n/2 || sum >= n/2) break;
         }
     }
 
