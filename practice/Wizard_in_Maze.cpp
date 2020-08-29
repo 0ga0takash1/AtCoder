@@ -183,7 +183,6 @@ int main() {
         }
         int64_t ans = pos_cost[dh][dw];
         if ( ans == INF) ans = -1;
-        return ans;
     }
     cout << ans << endl;
     return 0;
