@@ -25,7 +25,7 @@ int64_t bfs ( Graph G , int64_t start_num ) {
     std::vector<int64_t> seen(G.size(), 0);
     queue<int64_t> q;
     q.push(start_num);
-    int64_t ans = 1;
+    int64_t ans = 0;
     while ( !q.empty() ) {
         int64_t num = q.front();
         seen[num] = 1;
@@ -57,18 +57,23 @@ int main() {
         G[b[i]].push_back(a[i]);
     }
 
-    std::vector<int64_t> v;
-    int64_t sum = 0;
+    // std::vector<int64_t> v;
+    int64_t ans = 0;
     rep(i, n) {
+        /*
         if ( do_look[i] == 1 ) {
-            int64_t num = bfs(G, i);
-            sum += num;
-            v.push_back( num );
-            if (num >= n/2 || sum >= n/2) break;
-        }
+            // int64_t num = bfs(G, i);
+            // v.push_back( num );
+            chmax(ans, bfs(G, i));
+            if ( ans >= n/2 ) break;
+        }*/
+        if ( !do_look[i] ) continue;
+        chmax(ans, bfs(G, i));
+        if ( ans >= n/2 ) break;
     }
 
-    if (v.empty()) v.push_back(n);
-    cout << *max_element(ALL(v)) << endl;
+    // if (v.empty()) v.push_back(n);
+    // cout << *max_element(ALL(v)) << endl;
+    cout << ans << endl;
     return 0;
 }

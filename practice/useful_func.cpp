@@ -4,11 +4,18 @@ using namespace std;
 typedef long long ll;
 typedef int64_t i6;
 
-#define rep(i, n) for (ll i = 0; i < n; ++i)
-#define rep2(i, n) for (ll i = 1; i <= n; ++i)
-#define Sort(x) sort(x.begin(), x.end())
-#define Sort_rev(x) sort(x.begin(), x.end(), greater<int>())
+#define rep(i, n) for (int64_t i = 0; i < n; ++i)
+#define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
+#define repb(i, l, n) for (int64_t i = l; i < n; ++i)
+#define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define ALL(v) (v).begin(), (v).end()
+#define Sort(x) sort(ALL(x))
+#define Sort_rev(x) Sort(x);reverse(ALL(x))
+#define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
+
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
+template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
 
 // π M_PI
 // deg = rad*180/M_PI
@@ -21,28 +28,39 @@ double rad_to_deg( double rad ) {
     return (rad*180)/M_PI;
 }
 
-const int64_t inf = 0x3fffffff;
+const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 
 /*----------------------------------------------------------------------*/
+void Alphabet (char s) {
+    if (s >= 'a' && s <= 'z') {
+        cout << "small" << endl;
+    } else if(s >= 'A' && s <= 'Z') {
+        cout << "large" << endl;
+    } else if(s >= '0') {
+        cout << "number" << endl;
+    }
+    return;
+}
+/*----------------------------------------------------------------------*/
 // 最大公約数
-ll gcd(ll a, ll b) {
+int64_t gcd(int64_t a, int64_t b) {
     return b ? gcd(b, a%b) : a;
 }
 
-ll ngcd(vector<ll> a){
+int64_t ngcd(vector<int64_t> a){
     int res;
     res = a[0];
-    for(ll i = 1; i < a.size() && res != 1; i++) {
+    for(int64_t i = 1; i < a.size() && res != 1; i++) {
         res = gcd(a[i], res);
     }
     return res;
 }
 /*----------------------------------------------------------------------*/
 // 最小公倍数
-ll lcm(ll a, ll b) {
+int64_t lcm(int64_t a, int64_t b) {
     return a / gcd(a, b) * b;
 }
 
@@ -56,7 +74,7 @@ int nlcm(vector<int> numbers) {
 }
 /*----------------------------------------------------------------------*/
 // 素数判定
-bool isPrime(ll x) {
+bool isPrime(int64_t x) {
     int i;
     if(x < 2)return 0;
     else if(x == 2) return 1;
@@ -66,7 +84,7 @@ bool isPrime(ll x) {
 }
 /*----------------------------------------------------------------------*/
 // 桁和
-ll digsum(ll n) {
+int64_t digsum(int64_t n) {
     int res = 0;
     while(n > 0) {
         res += n%10;
@@ -76,8 +94,8 @@ ll digsum(ll n) {
 }
 /*----------------------------------------------------------------------*/
 // 約数列挙
-vector<ll> enum_div(ll n) {
-    vector<ll> ret;
+vector<int64_t> enum_div(int64_t n) {
+    vector<int64_t> ret;
     for(int i = 1 ; i*i <= n ; ++i){
         if(n%i == 0){
             ret.push_back(i);
@@ -89,8 +107,22 @@ vector<ll> enum_div(ll n) {
     return ret;
 }
 /*----------------------------------------------------------------------*/
+// エラトステネスのふるい
+std::vector<int64_t> Eratosthenes( int64_t n ) {
+    std::vector<int64_t> is_prime(n+1, 1);
 
-ll nCr(ll n , ll r) {
+    std::vector<int64_t> P;
+    repb2(i, 2, n) {
+        if( is_prime[i] ) {
+            for( int j = 2 * i; j <= n; j += i ) is_prime[j] = 0;
+            P.push_back(i);
+        }
+    }
+    return P;
+}
+/*----------------------------------------------------------------------*/
+
+int64_t nCr(int64_t n , int64_t r) {
     if ( n == r || n == 1 || r == 0 ) {
         return 1;
     }
@@ -99,7 +131,7 @@ ll nCr(ll n , ll r) {
     if ( r == 1 ) {
         return n;
     } else {
-        std::vector<std::vector<ll> > v(n + 1,std::vector<ll>(n + 1, 0));
+        std::vector<std::vector<int64_t> > v(n + 1,std::vector<int64_t>(n + 1, 0));
         for (int i = 0; i < v.size(); i++) {
             v[i][0] = 1;
             v[i][i] = 1;
@@ -114,14 +146,14 @@ ll nCr(ll n , ll r) {
 }
 /*----------------------------------------------------------------------*/
 
-const ll MOD = 1e9 + 7;
+const int64_t MOD = 1e9+7;
 
-ll Mod(ll a, ll mod) {
+int64_t Mod(int64_t a, int64_t mod) {
     return (a%mod + mod)%mod;
 }
 
-ll pow_mod(ll x, ll n, ll mod) {
-    ll res = 1;
+int64_t pow_mod(int64_t x, int64_t n, int64_t mod) {
+    int64_t res = 1;
     while(n > 0) {
         if (n & 1) {
             res = res*x%mod;
@@ -132,24 +164,24 @@ ll pow_mod(ll x, ll n, ll mod) {
     return res;
 }
 
-ll extGCD(ll a, ll b, ll &x, ll &y) {
+int64_t extGCD(int64_t a, int64_t b, int64_t &x, int64_t &y) {
     if (b == 0) {
         x = 1;
         y = 0;
         return a;
     }
-    ll d = extGCD(b, a%b, y, x);
+    int64_t d = extGCD(b, a%b, y, x);
     y -= a / b * x;
     return d;
 }
 
-ll modinv(ll a, ll mod) {
-    ll x, y;
+int64_t modinv(int64_t a, int64_t mod) {
+    int64_t x, y;
     extGCD(a, mod, x, y);
     return Mod(x, mod);
 }
 
-ll nCr_mod(ll n, ll r, ll mod) {
+int64_t nCr_mod(int64_t n, int64_t r, int64_t mod) {
     if ( n == r || n == 1 || r == 0 ) {
         return 1;
     }
@@ -158,8 +190,8 @@ ll nCr_mod(ll n, ll r, ll mod) {
     if ( r == 1 ) {
         return n;
     } else {
-        ll n_to_n_r = n;
-        ll r_to_1 = r;
+        int64_t n_to_n_r = n;
+        int64_t r_to_1 = r;
         rep2(i, r-1) {
             n_to_n_r *= n-i;
             n_to_n_r %= mod;
@@ -173,30 +205,30 @@ ll nCr_mod(ll n, ll r, ll mod) {
 }
 /*----------------------------------------------------------------------*/
 
-bool pairCompare(const pair<string, ll>& firstElof, const pair<string, ll>& secondElof) {
-    return firstElof.second < secondElof.second;
-}
-
-bool pairCompareRev(const pair<string, ll>& firstElof, const pair<string, ll>& secondElof) {
-    return firstElof.second > secondElof.second;
-}
-
-bool pairCompare(const pair<ll, ll>& firstElof, const pair<ll, ll>& secondElof) {
+bool pair_Cf(const pair<int64_t, int64_t>& firstElof, const pair<int64_t, int64_t>& secondElof) {
     return firstElof.first < secondElof.first;
 }
 
-bool pairCompareRev(const pair<ll, ll>& firstElof, const pair<ll, ll>& secondElof) {
+bool pair_Cf_R(const pair<int64_t, int64_t>& firstElof, const pair<int64_t, int64_t>& secondElof) {
     return firstElof.first > secondElof.first;
 }
 
-// vector<pair<int, int> > pairs;
-// pairs.push_back( make_pair(a, b) );
-// sort(ALL(pairs), pairCompare);
+bool pair_Cs(const pair<string, int64_t>& firstElof, const pair<string, int64_t>& secondElof) {
+    return firstElof.second < secondElof.second;
+}
+
+bool pair_Cs_R(const pair<string, int64_t>& firstElof, const pair<string, int64_t>& secondElof) {
+    return firstElof.second > secondElof.second;
+}
+
+// vector<pair<int64_t, int64_t> > p;
+// p.push_back( make_pair(a, b) );
+// sort(ALL(p), pair_Cf);
 // reverse(ALL(v));
 /*----------------------------------------------------------------------*/
 
-void permutation(ll num, bool rev) {
-    std::vector<ll> v;
+void permutation(int64_t num, bool rev) {
+    std::vector<int64_t> v;
     rep(i, num) {
         v.push_back(i);
     }
@@ -222,14 +254,14 @@ void permutation(ll num, bool rev) {
 // 各座標に格納したい情報を構造体にする
 // 今回はX座標,Y座標,深さ(距離)を記述している
 struct Corr {
-    ll x;
-    ll y;
-    ll depth;
+    int64_t x;
+    int64_t y;
+    int64_t depth;
 };
 queue<Corr> q;
-ll bfs(vector<vector<ll> > grid) {
+void BFS(vector<vector<int64_t> > grid) {
     // 既に探索の場所を1，探索していなかったら0を格納する配列
-    vector<vector<ll> > ispassed(grid.size(), vector<ll>(grid[0].size(), false));
+    vector<vector<int64_t> > ispassed(grid.size(), vector<int64_t>(grid[0].size(), false));
     // このような記述をしておくと，この後のfor文が綺麗にかける
     int dx[8] = {1, 0, -1, 0};
     int dy[8] = {0, 1, 0, -1};
@@ -258,6 +290,46 @@ ll bfs(vector<vector<ll> > grid) {
             Corr next = {nextx, nexty, now.depth+1};
             q.push(next);
         }
+    }
+    return;
+}
+/*----------------------------------------------------------------------*/
+
+typedef std::vector<std::vector<int64_t> > Graph;
+
+void bfs ( Graph G ) {
+    std::vector<int64_t> seen(G.size(), 0);
+    queue<int64_t> q;
+    int64_t start_num = 0;
+    q.push(start_num);
+    while ( !q.empty() ) {
+        int64_t num = q.front();
+        seen[num] = 1;
+        q.pop();
+        rep(i, G[num].size()) {
+            int64_t see = G[num].at(i);
+            if ( seen[see] == 0 ) {
+                q.push(see);
+                seen[see] = 1;
+            }
+        }
+    }
+}
+
+vector<int64_t> seen(INF, 0);
+void dfs(Graph G, int v) {
+    seen[v] = true; // v を訪問済にする
+
+    // v から行ける各頂点 next_v について
+    /*
+    for (auto next_v : G[v]) {
+        if (seen[next_v]) continue; // next_v が探索済だったらスルー
+        dfs(G, next_v); // 再帰的に探索
+    }*/
+
+    rep(i, G[v].size()) {
+        if (seen[G[v].at(i)]) continue; // next_v が探索済だったらスルー
+        dfs(G, G[v].at(i)); // 再帰的に探索
     }
 }
 /*----------------------------------------------------------------------*/

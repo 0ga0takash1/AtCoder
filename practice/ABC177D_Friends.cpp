@@ -1,3 +1,9 @@
+/*---------------------------------------------*/
+/*
+    ABC177 D
+ */
+/*---------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -30,8 +36,9 @@ int64_t bfs ( Graph G , int64_t start_num ) {
         int64_t num = q.front();
         seen[num] = 1;
         q.pop();
-        rep(i, G[num].size()) {
-            int64_t see = G[num].at(i);
+        // rep(i, G[num].size())
+        for (auto&(see) : (G[num])) {
+            // int64_t see = G[num].at(i);
             if ( seen[see] == 0 ) {
                 q.push(see);
                 seen[see] = 1;
@@ -41,6 +48,32 @@ int64_t bfs ( Graph G , int64_t start_num ) {
         }
     }
     return ans;
+}
+
+void func( Graph G ) {
+    int64_t ans = 0, num;
+    int64_t n = G.size();
+    std::vector<int64_t> seen(n, 0);
+    queue<int64_t> q;
+    rep(i, n) {
+        if (seen[i]) continue;
+        seen[i] = 1, num = 0;
+        q.push(i);
+        while ( !q.empty() ) {
+            int64_t see = q.front();
+            q.pop();
+            ++num;
+            rep(j, G[see].size()) {
+                int64_t next = G[see].at(j);
+                if ( !seen[next] ) {
+                    q.push(next);
+                    seen[next] = 1;
+                }
+            }
+        }
+        chmax(ans, num);
+    }
+    cout << ans << endl;
 }
 
 int main() {
@@ -56,8 +89,9 @@ int main() {
         G[a[i]].push_back(b[i]);
         G[b[i]].push_back(a[i]);
     }
-
+    func(G);
     // std::vector<int64_t> v;
+    /*
     int64_t ans = 0;
     rep(i, n) {
         /*
@@ -66,7 +100,7 @@ int main() {
             // v.push_back( num );
             chmax(ans, bfs(G, i));
             if ( ans >= n/2 ) break;
-        }*/
+        }
         if ( !do_look[i] ) continue;
         chmax(ans, bfs(G, i));
         if ( ans >= n/2 ) break;
@@ -75,5 +109,6 @@ int main() {
     // if (v.empty()) v.push_back(n);
     // cout << *max_element(ALL(v)) << endl;
     cout << ans << endl;
+    */
     return 0;
 }

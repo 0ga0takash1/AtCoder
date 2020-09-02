@@ -1,3 +1,9 @@
+/*---------------------------------------------*/
+/*
+    ABC177 D
+ */
+/*---------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -44,36 +50,36 @@ int64_t bfs ( Graph G , int64_t start_num ) {
 }
 
 int main() {
-    int64_t n, m;
+    ll n, m, a, b;
     cin >> n >> m;
-    Graph G(n);
-    std::vector<int64_t> a(m), b(m);
+    Graph g(n);
+    std::vector<int> vis(n,0);
     rep(i, m) {
-        cin >> a[i] >> b[i];
-        a[i]--;b[i]--;
-        do_look[a[i]] = 1;
-        do_look[b[i]] = 1;
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
+        cin >> a >> b;
+        --a,--b;
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+    int ans=0, cnt;
+    queue<int> q;
+    for(int i=0;i<n;i++){
+        if(vis[i]) continue;
+        vis[i]=1, cnt=0;
+        q.push(i);
+        while(!q.empty()){
+            int u = q.front();
+            q.pop();
+            cnt++;
+            for (auto&(v) : (g[u])) {
+                if(!vis[v]){
+                    q.push(v);
+                    vis[v]=1;
+                }
+            }
+        }
+        chmax(ans,cnt);
     }
 
-    // std::vector<int64_t> v;
-    int64_t ans = 0;
-    rep(i, n) {
-        /*
-        if ( do_look[i] == 1 ) {
-            // int64_t num = bfs(G, i);
-            // v.push_back( num );
-            chmax(ans, bfs(G, i));
-            if ( ans >= n/2 ) break;
-        }*/
-        if ( !do_look[i] ) continue;
-        chmax(ans, bfs(G, i));
-        if ( ans >= n/2 ) break;
-    }
-
-    // if (v.empty()) v.push_back(n);
-    // cout << *max_element(ALL(v)) << endl;
     cout << ans << endl;
     return 0;
 }
