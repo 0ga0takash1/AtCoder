@@ -9,10 +9,12 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
 #define repb(i, l, n) for (int64_t i = l; i < n; ++i)
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
+#define repe(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
-#define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
+#define mp(a, b) make_pair((a), (b))
+#define Push_back(a, b) push_back( mp( (a), (b) ) )
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
