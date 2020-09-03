@@ -25,59 +25,52 @@ template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } ret
 template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
 const int64_t INF = 0x3fffffffffffffff;
 
-std::vector<int64_t> do_look(200000, 0);
+struct UnionFind {
+    //自身が親であれば、その集合に属する頂点数に-1を掛けたもの
+    //そうでなければ親のid
+    vector<int64_t> r;
 
-int64_t bfs ( Graph G , int64_t start_num ) {
-    std::vector<int64_t> seen(G.size(), 0);
-    queue<int64_t> q;
-    q.push(start_num);
-    int64_t ans = 1;
-    while ( !q.empty() ) {
-        int64_t num = q.front();
-        seen[num] = 1;
-        q.pop();
-        rep(i, G[num].size()) {
-            int64_t see = G[num].at(i);
-            if ( seen[see] == 0 ) {
-                q.push(see);
-                seen[see] = 1;
-                do_look[see] = 0;
-                ans++;
-            }
-        }
+    UnionFind(int64_t N) {
+        r = vector<int64_t>(N, -1);
     }
-    return ans;
-}
+
+    int64_t root(int64_t x) {
+        if (r[x] < 0) return x;
+        return r[x] = root(r[x]);
+    }
+
+    bool unite(int64_t x, int64_t y) {
+        x = root(x);
+        y = root(y);
+        if (x == y) return false;
+        if (r[x] > r[y]) swap(x, y);
+        r[x] += r[y];
+        r[y] = x;
+        return true;
+    }
+
+    int64_t size(int64_t x) {
+        return -r[root(x)];
+    }
+};
 
 int main() {
-    ll n, m, a, b;
-    cin >> n >> m;
-    Graph g(n);
-    std::vector<int> vis(n,0);
-    rep(i, m) {
-        cin >> a >> b;
-        --a,--b;
-        g[a].push_back(b);
-        g[b].push_back(a);
+    int N, M;
+    cin >> N >> M;
+
+    //友達集合を作る
+    UnionFind UF(N);
+    for (int i = 0; i < M; i++) {
+        int A, B;
+        cin >> A >> B;
+        A -= 1; B -= 1;
+        UF.unite(A, B);
     }
-    int ans=0, cnt;
-    queue<int> q;
-    for(int i=0;i<n;i++){
-        if(vis[i]) continue;
-        vis[i]=1, cnt=0;
-        q.push(i);
-        while(!q.empty()){
-            int u = q.front();
-            q.pop();
-            cnt++;
-            for (auto&(v) : (g[u])) {
-                if(!vis[v]){
-                    q.push(v);
-                    vis[v]=1;
-                }
-            }
-        }
-        chmax(ans,cnt);
+
+    //最大の友達集合を求める
+    int64_t ans = 0;
+    for (int i = 0; i < N; i++) {
+        ans = max(ans, UF.size(i));
     }
 
     cout << ans << endl;
