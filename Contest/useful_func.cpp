@@ -324,19 +324,118 @@ void dfs(Graph G, int v) {
     seen[v] = true; // v を訪問済にする
 
     // v から行ける各頂点 next_v について
+    repe(next_v, G[v]) {
+        if (seen[next_v]) continue; // next_v が探索済だったらスルー
+        dfs(G, next_v);
+    }
     /*
     for (auto next_v : G[v]) {
         if (seen[next_v]) continue; // next_v が探索済だったらスルー
         dfs(G, next_v); // 再帰的に探索
     }*/
-
+    /*
     rep(i, G[v].size()) {
         if (seen[G[v].at(i)]) continue; // next_v が探索済だったらスルー
         dfs(G, G[v].at(i)); // 再帰的に探索
-    }
+    }*/
 }
 /*----------------------------------------------------------------------*/
+// UnionFind
+struct UnionFind {
+    //自身が親であれば、その集合に属する頂点数に-1を掛けたもの
+    //そうでなければ親のid
+    vector<int64_t> r;
 
+    UnionFind(int64_t N) {
+        r = vector<int64_t>(N, -1);
+    }
+
+    int64_t root(int64_t x) {
+        if (r[x] < 0) return x;
+        return r[x] = root(r[x]);
+    }
+
+    bool unite(int64_t x, int64_t y) {
+        x = root(x);
+        y = root(y);
+        if (x == y) return false;
+        if (r[x] > r[y]) swap(x, y);
+        r[x] += r[y];
+        r[y] = x;
+        return true;
+    }
+
+    int64_t size(int64_t x) {
+        return -r[root(x)];
+    }
+};
+/*----------------------------------------------------------------------*/
+class DIJKSTRA {
+   public:
+    int V;
+
+    struct dk_edge {
+        int to;
+        ll cost;
+    };
+
+    typedef pair<ll, int> PI;  // firstは最短距離、secondは頂点の番号
+    vector<vector<dk_edge>> G;
+    vector<ll> d;      //これ答え。d[i]:=V[i]までの最短距離
+    vector<int> prev;  //経路復元
+
+    DIJKSTRA(int size) {
+        V = size;
+        G = vector<vector<dk_edge>>(V);
+        prev = vector<int>(V, -1);
+    }
+
+    void add(int from, int to, ll cost) {
+        dk_edge e = {to, cost};
+        G[from].push_back(e);
+    }
+
+    void dijkstra(int s) {
+        // greater<P>を指定することでfirstが小さい順に取り出せるようにする
+        priority_queue<PI, vector<PI>, greater<PI>> que;
+        d = vector<ll>(V, LLINF);
+        d[s] = 0;
+        que.push(PI(0, s));
+
+        while (!que.empty()) {
+            PI p = que.top();
+            que.pop();
+            int v = p.second;
+            if (d[v] < p.first) continue;
+            for (int i = 0; i < G[v].size(); i++) {
+                dk_edge e = G[v][i];
+                if (d[e.to] > d[v] + e.cost) {
+                    d[e.to] = d[v] + e.cost;
+                    prev[e.to] = v;
+                    que.push(PI(d[e.to], e.to));
+                }
+            }
+        }
+    }
+    vector<int> get_path(int t) {
+        vector<int> path;
+        for (; t != -1; t = prev[t]) {
+            // tがsになるまでprev[t]をたどっていく
+            path.push_back(t);
+        }
+        //このままだとt->sの順になっているので逆順にする
+        reverse(path.begin(), path.end());
+        return path;
+    }
+    void show(void) {
+        for (int i = 0; i < d.size() - 1; i++) {
+            cout << d[i] << " ";
+        }
+        cout << d[d.size() - 1] << endl;
+    }
+};
+
+/*----------------------------------------------------------------------*/
 int main() {
     return 0;
 }
