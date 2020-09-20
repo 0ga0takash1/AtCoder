@@ -38,19 +38,23 @@ int64_t enum_div(int64_t n) {
 }
 
 int64_t enum_div2 (int64_t n) {
-    vector<int64_t> ret;
+    // vector<int64_t> ret;
+    int64_t ans = 0;
     rep2(i, n-1) {
         for(int j = 1; j*j <= i; ++j){
             if(i%j == 0){
-                ret.push_back(j);
+                // ret.push_back(j);
+                ++ans;
                 if ( j*j != i ) {
-                    ret.push_back(i/j);
+                    // ret.push_back(i/j);
+                    ++ans;
                 }
             }
         }
         // ans += ret.size();
     }
-    return ret.size();
+    // return ret.size();
+    return ans;
 }
 
 int main() {
@@ -65,11 +69,14 @@ int main() {
     cout << ans << endl;
     */
 
-    // cout << enum_div2(n) << endl;
+    cout << enum_div2(n) << endl;
+    /*
+
     int64_t ans = 0;
     rep2(i, n-1) {
         ans += (n-1)/i;
     }
     cout << ans << endl;
+    */
     return 0;
 }
