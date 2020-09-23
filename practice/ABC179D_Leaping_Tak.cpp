@@ -31,5 +31,11 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
+    int64_t n, k;
+    cin >> n >> k;
+    std::vector<int64_t> l(k), r(k);
+    rep(i, k) {
+        cin >> l[i] >> r[i];
+    }
     return 0;
 }

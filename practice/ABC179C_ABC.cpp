@@ -45,10 +45,33 @@ int64_t enum_div2 (int64_t n) {
     return ans;
 }
 
+int64_t func (int64_t n) {
+    vector<int64_t> x(n+1);
+	int64_t num = n; // 素因数分解する変数num
+    int64_t ans = 1;
+
+    repb2(i, 2, n) {
+		while (num%i == 0) { // 素数で割り切れなくなるまで割っていく
+			x.at(i)++; //割った個数を配列に足す
+			num /= i;
+		}
+	}
+
+    repb2(i, 2, n) {
+		ans *= x.at(i) + 1; //それぞれを+1して掛けていく
+	}
+    return ans;
+}
+
 int main() {
     int64_t n;
     cin >> n;
 
-    cout << enum_div2(n) << endl;
+    // cout << enum_div2(n) << endl;
+    int64_t ans = 0;
+    rep2(i, n-1) {
+        ans += func(i);
+    }
+    cout << ans << endl;
     return 0;
 }
