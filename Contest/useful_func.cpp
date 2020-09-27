@@ -110,6 +110,25 @@ vector<int64_t> enum_div(int64_t n) {
     return ret;
 }
 /*----------------------------------------------------------------------*/
+// 素因数分解、約数の個数
+int64_t div_num (int64_t n) {
+    vector<int64_t> x(n+1);
+	int64_t num = n;
+    int64_t ans = 1;
+
+    repb2(i, 2, n) {
+		while (num%i == 0) {
+			x.at(i)++;
+			num /= i;
+		}
+	}
+
+    repb2(i, 2, n) {
+		ans *= x.at(i)+1;
+	}
+    return ans;
+}
+/*----------------------------------------------------------------------*/
 // エラトステネスのふるい
 std::vector<int64_t> Eratosthenes( int64_t n ) {
     std::vector<int64_t> is_prime(n+1, 1);

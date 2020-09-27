@@ -1,3 +1,9 @@
+/*---------------------------------------------*/
+/*
+    ABC179 C
+ */
+/*---------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -24,59 +30,48 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t enum_div(int64_t n) {
-    vector<int64_t> ret;
-    for(int i = 1 ; i*i <= n ; ++i){
-        if(n%i == 0){
-            ret.push_back(i);
-            if ( i*i != n ) {
-                ret.push_back(n/i);
-            }
-        }
-    }
-    return ret.size();
-}
-
 int64_t enum_div2 (int64_t n) {
-    // vector<int64_t> ret;
     int64_t ans = 0;
     rep2(i, n-1) {
         for(int j = 1; j*j <= i; ++j){
             if(i%j == 0){
-                // ret.push_back(j);
                 ++ans;
                 if ( j*j != i ) {
-                    // ret.push_back(i/j);
                     ++ans;
                 }
             }
         }
-        // ans += ret.size();
     }
-    // return ret.size();
+    return ans;
+}
+
+int64_t func (int64_t n) {
+    vector<int64_t> x(n+1);
+	int64_t num = n; // 素因数分解する変数num
+    int64_t ans = 1;
+
+    repb2(i, 2, n) {
+		while (num%i == 0) { // 素数で割り切れなくなるまで割っていく
+			x.at(i)++; //割った個数を配列に足す
+			num /= i;
+		}
+	}
+
+    repb2(i, 2, n) {
+		ans *= x.at(i) + 1; //それぞれを+1して掛けていく
+	}
     return ans;
 }
 
 int main() {
     int64_t n;
     cin >> n;
-    // std::vector<int64_t> v;
-    /*
+
+    // cout << enum_div2(n) << endl;
     int64_t ans = 0;
     rep2(i, n-1) {
-        ans += enum_div(i);
+        ans += func(i);
     }
     cout << ans << endl;
-    */
-
-    cout << enum_div2(n) << endl;
-    /*
-
-    int64_t ans = 0;
-    rep2(i, n-1) {
-        ans += (n-1)/i;
-    }
-    cout << ans << endl;
-    */
     return 0;
 }
