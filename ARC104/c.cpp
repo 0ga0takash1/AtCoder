@@ -25,13 +25,23 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, k;
-    cin >> n >> k;
-
-    int64_t ans = 0;
-    std::vector<int64_t> a(n);
+    int64_t n;
+    cin >> n;
+    std::vector<int64_t> a(n), b(n), c(n);
+    vector<pair<int64_t, int64_t> > p, p2;
+    int64_t fake = 0;
     rep(i, n) {
-        cin >> a[i];
+        cin >> a[i] >> b[i];
+        c[i] = b[i]-a[i]-1;
+        p.Push_back(a[i], i);
+        p2.Push_back(a[i], i);
+        if ( a[i] > b[i] ) fake = 1;
     }
+    int64_t ans = 0;
+    if ( !fake ) {
+        ans = 1;
+    }
+
+    cout << ( ans ? "Yes" : "No" ) << endl;
     return 0;
 }

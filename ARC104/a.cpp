@@ -25,13 +25,8 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, k;
-    cin >> n >> k;
-
-    int64_t ans = 0;
-    std::vector<int64_t> a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
+    int64_t a, b;
+    cin >> a >> b;
+    cout << (a+b)/2 << " " << a-(a+b)/2 << endl;
     return 0;
 }
