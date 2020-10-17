@@ -78,7 +78,7 @@ int nlcm(vector<int> numbers) {
 /*----------------------------------------------------------------------*/
 // 素数判定
 bool isPrime(int64_t x) {
-    int i;
+    int64_t i;
     if(x < 2)return 0;
     else if(x == 2) return 1;
     if(x%2 == 0) return 0;
@@ -99,7 +99,7 @@ int64_t digsum(int64_t n) {
 // 約数列挙
 vector<int64_t> enum_div(int64_t n) {
     vector<int64_t> ret;
-    for(int i = 1 ; i*i <= n ; ++i){
+    for(int64_t i = 1; i*i <= n; ++i){
         if(n%i == 0){
             ret.push_back(i);
             if(i != 1 && i*i != n){
