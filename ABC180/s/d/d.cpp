@@ -56,16 +56,18 @@ int main() {
     int64_t ans = 0;
     neccesary_number(x, y, a, b, v, ans);
     cout << v[v.size()-1] << endl;
+    // std::vector<int64_t> num = neccesary_num(x, y, a, b);
     */
 
-    int64_t num = -1, ans = 0;
+    // int64_t num = -1, ans = 0;
     int64_t can_a = 1, can_b = 1;
-    std::vector<int64_t> v(y, 0);
-    // std::vector<int64_t> num = neccesary_num(x, y, a, b);
-    // v[x] = 1;
+    // std::vector<int64_t> v(y+1, -1);
+    std::vector<int64_t> v(y/2, -1), v2(y/2+1, -1);
+    v[x] = 0;
     repb2(i, x, y) {
         if ( i < y/2 ) {
-            if ( v[i] == 0 && i != x ) continue;
+            // if ( v[i] == 0 && i != x ) continue;
+            if ( v[i] == -1 ) continue;
             // cout << i << ":" << v[i] << endl;
             if ( !can_a && !can_b ) break;
             if ( can_a ) {
@@ -74,7 +76,7 @@ int main() {
                     if ( i*a < y/2 ) {
                         chmax(v[i*a], v[i]+1);
                     } else {
-
+                        chmax(v2[i*a-y/2], v[i]+1);
                     }
                 } else {
                     can_a = 0;
@@ -83,16 +85,38 @@ int main() {
 
             if ( can_b ) {
                 if ( i+b <= y ) {
-                    chmax(v[i+b], v[i]+1);
+                    if ( i+b < y/2 ) {
+                        chmax(v[i+b], v[i]+1);
+                    } else {
+                        chmax(v[i+b-y/2], v[i]+1);
+                    }
                 } else {
                     can_b = 0;
                 }
             }
         } else {
+            if ( v[i-y/2] == -1 ) continue;
+            // cout << i << ":" << v[i] << endl;
+            if ( !can_a && !can_b ) break;
+            if ( can_a ) {
+                if ( i*a <= y ) {
+                    // v[i*a] = v[i]+1;
+                    chmax(v[i*a-y/2], v[i-y/2]+1);
+                } else {
+                    can_a = 0;
+                }
+            }
 
+            if ( can_b ) {
+                if ( i+b <= y ) {
+                    chmax(v[i+b-y/2], v[i-y/2]+1);
+                } else {
+                    can_b = 0;
+                }
+            }
         }
 
     }
-    cout << *max_element(ALL(v)) << endl;
+    cout << *max_element(ALL(v2)) << endl;
     return 0;
 }
