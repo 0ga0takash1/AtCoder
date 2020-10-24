@@ -24,8 +24,8 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t bfs ( Graph G, int64_t start_num, std::vector<int64_t> v ) {
-    std::vector<int64_t> seen(G.size(), 0);
+std::vector<int64_t> seen(200000, 0);
+int64_t bfs ( Graph G, int64_t start_num, std::vector<int64_t> ab ) {
     queue<int64_t> q;
     // int64_t start_num = 0;
     q.push(start_num);
@@ -34,20 +34,19 @@ int64_t bfs ( Graph G, int64_t start_num, std::vector<int64_t> v ) {
         int64_t num = q.front();
         seen[num] = 1;
 
-        sum += v[num];
+        sum += ab[num];
 
         q.pop();
         rep(i, G[num].size()) {
             int64_t see = G[num].at(i);
             if ( seen[see] == 0 ) {
                 q.push(see);
-                seen[see] = 1;
-
-                sum += v[num];
+                // seen[see] = 1;
             }
         }
     }
-    if (sum == 0) {
+    // cout << "b:" << sum << endl;
+    if ( sum == 0 ) {
         return 1;
     } else {
         return 0;
@@ -68,6 +67,12 @@ int main() {
         sum += b[i]-a[i];
         ab[i] = b[i]-a[i];
     }
+/*
+    cout << "ab:";
+    rep(i, n) {
+        cout << ab[i] << " ";
+    }
+    cout << endl;*/
 
     if ( judge ) {
         cout << "Yes" << endl;
@@ -88,14 +93,17 @@ int main() {
 
     rep(i, n) {
         if ( G[i].empty() ) {
-            if (ab[i] != 0) {
+            if ( ab[i] != 0 ) {
                 cout << "No" << endl;
                 return 0;
             }
         } else {
-            if ( !bfs(G, i, ab) ) {
-                cout << "No" << endl;
-                return 0;
+            if ( !seen[i] ) {
+                // cout << "com" << i << endl;
+                if ( !bfs(G, i, ab) ) {
+                    cout << "No" << endl;
+                    return 0;
+                }
             }
         }
     }
