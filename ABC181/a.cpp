@@ -15,7 +15,6 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
-#define ctoi(c) (c)-'0'
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -26,5 +25,12 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
+    int64_t n;
+    cin >> n;
+    if (n%2==0) {
+        cout << "White" << endl;
+    } else {
+        cout << "Black" << endl;
+    }
     return 0;
 }

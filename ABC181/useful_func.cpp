@@ -15,7 +15,6 @@ typedef int64_t i6;
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 // #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
-#define ctoi(c) (c)-'0'
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
