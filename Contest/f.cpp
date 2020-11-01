@@ -9,6 +9,8 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
 #define repb(i, l, n) for (int64_t i = l; i < n; ++i)
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
+#define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
+#define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
 #define repe(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
