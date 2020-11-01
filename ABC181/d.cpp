@@ -31,7 +31,7 @@ int main() {
 
     int64_t n = s.length();
     if ( n == 1 ) {
-        if ( s == "8" ) {
+        if ( (s[0]-'0')%8 == 0 ) {
             cout << "Yes" << endl;
         } else {
             cout << "No" << endl;
@@ -57,20 +57,21 @@ int main() {
         return 0;
     } else {
         std::vector<int64_t> v(10, 0);
-        rep(i, n) {
-            ++v[s[i]-'0'];
-        }
+        rep(i, n) ++v[s[i]-'0'];
+
         rep2(i, 9) {
-            std::vector<int64_t> v2 = v;
-            if ( v2[i] == 0 ) continue;
-            --v2[i];
-            rep(j, 10) {
-                if ( v2[j] == 0 ) continue;
-                --v2[j];
-                rep(k, 10) {
-                    if ( v2[k] == 0 ) continue;
+            rep2(j, 9) {
+                // rep2(k, 9) {
+                for (int64_t k = 2; k <= 8; k += 2) {
+                    std::vector<int64_t> v2 = v;
+                    if ( v2[i] <= 0 ) continue;
+                    --v2[i];
+                    if ( v2[j] <= 0 ) continue;
+                    --v2[j];
+                    if ( v2[k] <= 0 ) continue;
                     int64_t num = 100*i+10*j+k;
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    // cout << "num " << num << endl;
+                    if ( num%8 == 0 ) {
                         cout << "Yes" << endl;
                         return 0;
                     }
@@ -78,113 +79,113 @@ int main() {
             }
         }
         cout << "No" << endl;
-        /*
-        rep(i, n-2) {
-            repb(j, i+1, n-1) {
-                int64_t num, flag = 0;
-                string s2 = "ABC";
-                repb(k, j+1, n) {
-                    // string s2 = s[i]+s[j]+s[k];
-                    /*
-                    string s2 = to_string(s[i]);
-                    s2.append(to_string(s[j]));
-                    s2.append(to_string(s[k]));
+    }
+    /*
+    rep(i, n-2) {
+        repb(j, i+1, n-1) {
+            int64_t num, flag = 0;
+            string s2 = "ABC";
+            repb(k, j+1, n) {
+                // string s2 = s[i]+s[j]+s[k];
+                /*
+                string s2 = to_string(s[i]);
+                s2.append(to_string(s[j]));
+                s2.append(to_string(s[k]));
 
-                    s2[0] = s[i];
-                    s2[1] = s[j];
-                    s2[2] = s[k];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
-
-                    // s2 = s[i]+s[k]+s[j];
-                    /*
-                    s2 = to_string(s[i]);
-                    s2.append(to_string(s[k]));
-                    s2.append(to_string(s[j]));
-
-                    s2[0] = s[i];
-                    s2[1] = s[k];
-                    s2[2] = s[j];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
-
-                    // s2 = s[j]+s[i]+s[k];
-                    /*
-                    s2 = to_string(s[j]);
-                    s2.append(to_string(s[i]));
-                    s2.append(to_string(s[k]));
-                    s2[0] = s[j];
-                    s2[1] = s[i];
-                    s2[2] = s[k];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
-
-                    // s2 = s[j]+s[k]+s[i];
-                    /*
-                    s2 = to_string(s[j]);
-                    s2.append(to_string(s[k]));
-                    s2.append(to_string(s[i]));
-                    s2[0] = s[j];
-                    s2[1] = s[k];
-                    s2[2] = s[i];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
-
-                    // s2 = s[k]+s[i]+s[j];
-                    /*
-                    s2 = to_string(s[k]);
-                    s2.append(to_string(s[i]));
-                    s2.append(to_string(s[j]));
-                    s2[0] = s[k];
-                    s2[1] = s[i];
-                    s2[2] = s[j];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
-
-                    // s2 = s[k]+s[j]+s[i];
-                    /*
-                    s2 = to_string(s[k]);
-                    s2.append(to_string(s[j]));
-                    s2.append(to_string(s[i]));
-                    s2[0] = s[k];
-                    s2[1] = s[j];
-                    s2[2] = s[i];
-                    // num = stoi(s2);
-                    num = atoi(s2.c_str());
-                    if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
-                        flag = 1;
-                        break;
-                    }
+                s2[0] = s[i];
+                s2[1] = s[j];
+                s2[2] = s[k];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
                 }
 
-                if (flag) {
-                    cout << "Yes" << endl;
-                    return 0;
+                // s2 = s[i]+s[k]+s[j];
+                /*
+                s2 = to_string(s[i]);
+                s2.append(to_string(s[k]));
+                s2.append(to_string(s[j]));
+
+                s2[0] = s[i];
+                s2[1] = s[k];
+                s2[2] = s[j];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
+                }
+
+                // s2 = s[j]+s[i]+s[k];
+                /*
+                s2 = to_string(s[j]);
+                s2.append(to_string(s[i]));
+                s2.append(to_string(s[k]));
+                s2[0] = s[j];
+                s2[1] = s[i];
+                s2[2] = s[k];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
+                }
+
+                // s2 = s[j]+s[k]+s[i];
+                /*
+                s2 = to_string(s[j]);
+                s2.append(to_string(s[k]));
+                s2.append(to_string(s[i]));
+                s2[0] = s[j];
+                s2[1] = s[k];
+                s2[2] = s[i];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
+                }
+
+                // s2 = s[k]+s[i]+s[j];
+                /*
+                s2 = to_string(s[k]);
+                s2.append(to_string(s[i]));
+                s2.append(to_string(s[j]));
+                s2[0] = s[k];
+                s2[1] = s[i];
+                s2[2] = s[j];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
+                }
+
+                // s2 = s[k]+s[j]+s[i];
+                /*
+                s2 = to_string(s[k]);
+                s2.append(to_string(s[j]));
+                s2.append(to_string(s[i]));
+                s2[0] = s[k];
+                s2[1] = s[j];
+                s2[2] = s[i];
+                // num = stoi(s2);
+                num = atoi(s2.c_str());
+                if ( num%2 == 0 && ((num/2)%100)%4 == 0 ) {
+                    flag = 1;
+                    break;
                 }
             }
+
+            if (flag) {
+                cout << "Yes" << endl;
+                return 0;
+            }
         }
-        cout << "No" << endl;
-        */
     }
+    cout << "No" << endl;
+    */
     return 0;
 }
