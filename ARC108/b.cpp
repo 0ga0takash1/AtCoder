@@ -30,15 +30,14 @@ const int64_t MOD = 1e9+7;
 int main() {
     int64_t n;
     cin >> n;
-    string s;
-    cin >> s;
-    /*
+    // string s;
+    // cin >> s;
     string s(66666, 'f');
     rep (i, 33333) {
         s += "ox";
     }
-    cout << s << endl;
-    return 0;*/
+    // cout << s << endl;
+    // return 0;
 
     if ( n < 3 ) {
         cout << n << endl;
