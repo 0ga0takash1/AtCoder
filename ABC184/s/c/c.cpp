@@ -38,23 +38,25 @@ int main() {
         } else {
             if ( abs(r1-r2)+abs(c1-c2) <= 3 ) {
                 cout << 1 << endl;
+            } else if ( abs(r1-r2)+abs(c1-c2) <= 6 ) {
+                cout << 2 << endl;
             } else {
-                if ( abs(r1-r2)+abs(c1-c2) <= 6 ) {
+                if ( (r1-c1+r2+c2)%2 == 0 ) {
                     cout << 2 << endl;
                 } else {
-                    if ( (r1-c1+r2+c2)%2 == 0 ) {
+                    int64_t x = (r1-c1+r2+c2)/2;
+                    int64_t y = x-r1+c1;
+                    /*if ( (x==r2 && y==c2)
+                        || (x+1==r2 && y==c2)
+                        || (x==r2 && y+1==c2)
+                        || (x+1==r2 && y+1==c2) ) {*/
+                    if ( abs(x-r2)+abs(y-c2) <= 3
+                        || abs(x+1-r2)+abs(y-c2) <= 3
+                        || abs(x-r2)+abs(y+1-c2) <= 3
+                        || abs(x+1-r2)+abs(y+1-c2) <= 3 ) {
                         cout << 2 << endl;
                     } else {
-                        int64_t x = (r1-c1+r2+c2)/2;
-                        int64_t y = x-r1+c1;
-                        if ( (x==r2 && y ==c2)
-                            || (x+1==r2 && y ==c2)
-                            || (x==r2 && y+1 ==c2)
-                            || (x+1==r2 && y+1 ==c2)) {
-                            cout << 2 << endl;
-                        } else {
-                            cout << 3 << endl;
-                        }
+                        cout << 3 << endl;
                     }
                 }
             }

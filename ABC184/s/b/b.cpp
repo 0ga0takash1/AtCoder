@@ -33,8 +33,15 @@ int main() {
     string s;
     cin >> s;
     int64_t ans = m;
-    ans += count(s.cbegin(), s.cend(), 'o')-count(s.cbegin(), s.cend(), 'x');
-    if (ans < 0) ans = 0;
+    // ans += count(s.cbegin(), s.cend(), 'o')-count(s.cbegin(), s.cend(), 'x');
+    rep(i, n) {
+        if ( s[i] == 'o' ) {
+            ans++;
+        } else {
+            ans--;
+            if (ans < 0) ans = 0;
+        }
+    }
     cout << ans << endl;
     return 0;
 }

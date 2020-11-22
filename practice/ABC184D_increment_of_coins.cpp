@@ -28,20 +28,24 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, m;
-    cin >> n >> m;
-    string s;
-    cin >> s;
-    int64_t ans = m;
-    // ans += count(s.cbegin(), s.cend(), 'o')-count(s.cbegin(), s.cend(), 'x');
-    rep(i, n) {
-        if ( s[i] == 'o' ) {
-            ans++;
-        } else {
-            ans--;
-            if (ans < 0) ans = 0;
-        }
-    }
-    cout << ans << endl;
+    long double a, b, c;
+    cin >> a >> b >> c;
+    long double a2, b2, c2;
+    a2=100-a;b2=100-b;c2=100-c;
+
+    long double ans = 0;
+    // ans += a2*(a/(a+b+c));
+    // cout << setprecision(10) << ans << endl;
+    // ans += b2*(b/(a+b+c));
+    // cout << setprecision(10) << ans << endl;
+    // ans += c2*(c/(a+b+c));
+    ans = (a*a2+b*b2+c*c2)/(a+b+c);
+
+    // rep2(i, a2) ans += (a+i)/(a+i+b+c);
+    // rep2(i, b2) ans += (b+i)/(a+i+b+c);
+    // rep2(i, c2) ans += (c+i)/(a+i+b+c);
+
+    cout << setprecision(10) << ans << endl;
+    // cout << (a2+b2+c2)/3 << endl;
     return 0;
 }
