@@ -2,7 +2,6 @@
 using namespace std;
 
 typedef long long ll;
-typedef int64_t i6;
 typedef std::vector<std::vector<int64_t> > Graph;
 
 #define rep(i, n) for (int64_t i = 0; i < n; ++i)
