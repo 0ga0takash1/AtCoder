@@ -113,6 +113,25 @@ vector<int64_t> enum_div(int64_t n) {
     return ret;
 }
 /*----------------------------------------------------------------------*/
+// 素因数分解
+vector<pair<int64_t, int64_t> > prime_factorize(int64_t N) {
+    vector<pair<int64_t, int64_t> > res;
+    for (int64_t a = 2; a * a <= N; ++a) {
+        if (N % a != 0) continue;
+        int64_t ex = 0; 
+
+        while (N % a == 0) {
+            ++ex;
+            N /= a;
+        }
+
+        res.push_back({a, ex});
+    }
+
+    if (N != 1) res.push_back({N, 1});
+    return res;
+}
+/*----------------------------------------------------------------------*/
 // 素因数分解、約数の個数
 int64_t div_num (int64_t n) {
     vector<int64_t> x(n+1);
