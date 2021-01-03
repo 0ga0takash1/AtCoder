@@ -10,10 +10,11 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
 #define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
-#define repe(a, b) for (auto&(a) : (b))
+#define repi(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
+#define Sort_pair(x, p) sort(ALL(x), (p))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 #define ctoi(c) (c)-'0'

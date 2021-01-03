@@ -10,10 +10,11 @@ typedef int64_t i6;
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
 #define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
-#define repe(a, b) for (auto&(a) : (b))
+#define repi(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
+#define Sort_pair(x, p) sort(ALL(x), (p))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 // #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
@@ -118,7 +119,7 @@ vector<pair<int64_t, int64_t> > prime_factorize(int64_t N) {
     vector<pair<int64_t, int64_t> > res;
     for (int64_t a = 2; a * a <= N; ++a) {
         if (N % a != 0) continue;
-        int64_t ex = 0; 
+        int64_t ex = 0;
 
         while (N % a == 0) {
             ++ex;
@@ -365,7 +366,7 @@ void dfs(Graph G, int v) {
     seen[v] = true; // v を訪問済にする
 
     // v から行ける各頂点 next_v について
-    repe(next_v, G[v]) {
+    repi(next_v, G[v]) {
         if (seen[next_v]) continue; // next_v が探索済だったらスルー
         dfs(G, next_v);
     }
