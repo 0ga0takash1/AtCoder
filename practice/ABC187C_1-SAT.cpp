@@ -73,17 +73,19 @@ int main() {
         }
     }*/
 
-/*
+    auto iter = m.begin();
     for (auto i = m.begin(); i != m.end(); ++i) {
-        // std::cout << i->first << " => " << i->second << std::endl;
-        auto i2 = i+1;
-        if ( i->first == i2->first
-            && i->second != i2->second ) {
-            cout << i->first << endl;
-            return 0;
+        if ( i != m.begin() ) {
+            if ( iter->first == i->first
+                && iter->second != i->second ) {
+                cout << iter->first << endl;
+                return 0;
+            }
         }
-    }*/
+        iter = i;
+    }
 
+    /*
     repe(i, m) {
         if ( i.first == (i+1).first
             && i.second != (i+1).second ) {
@@ -91,7 +93,7 @@ int main() {
             return 0;
         }
     }
-
+    */
 
     cout << "satisfiable" << endl;
     return 0;
