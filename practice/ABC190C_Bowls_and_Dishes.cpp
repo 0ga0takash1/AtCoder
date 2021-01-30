@@ -28,25 +28,6 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-void opt_vec (std::vector<std::vector<int64_t>> opt,
-                std::vector<int64_t> a, std::vector<int64_t> b, int64_t i,
-                int64_t a_left, int64_t b_left) {
-    repb(j, a_left, b_left) {
-        opt[j][a[i]]++;
-    }
-    repb(j, b_left, 2*b_left-a_left) {
-        opt[j][b[i]]++;
-    }
-
-    if (i == a.size()-1) {
-        return;
-    } else {
-        ++i;
-        opt_vec(opt, a, b, i, a_left, (a_left+b_left)/2);
-        opt_vec(opt, a, b, i, b_left, b_left+(b_left-a_left)/2);
-    }
-}
-
 int main() {
     int64_t n, m;
     cin >> n >> m;
@@ -77,35 +58,7 @@ int main() {
 
     int64_t ans = 0;
     // kの選択を最大化
-    // std::vector<std::vector<int64_t>> dp(2, std::vector<int64_t>(k, 0));
-/*
-    std::vector<int64_t> opt(n, 0);
-    rep(i, k) {
-        if ( min(v[c[i]], v[c[i]]) == 1 ) {
-            if ( v[c[i]] == 1 ) {
-                ++opt[c[i]];
-            } else if ( v[d[i]] == 1 ) {
-                ++opt[d[i]];
-            }
-        } else {
-            if ( opt[d[i]] >= 1 && opt[c[i]] >= 1 ) {
-                continue;
-            } else if ( opt[d[i]] >= 1 ) {
-                ++opt[c[i]];
-            } else if ( opt[c[i]] >= 1 ) {
-                ++opt[d[i]];
-            } else {
-                if ( v[c[i]] <= v[d[i]] ) {
-                    ++opt[c[i]];
-                } else {
-                    ++opt[d[i]];
-                }
-            }
-        }
-    }
-*/
-    std::vector<std::vector<int64_t>> opt(pow(2, k), std::vector<int64_t>(n, 0));
-    opt_vec(opt, a, b, 0, 0, pow(2, k-1));
+    
 
     rep(i, m) {
         if ( a[i] >= 1 && b[i] >= 1 ) {

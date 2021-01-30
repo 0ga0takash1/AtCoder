@@ -18,6 +18,7 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 #define ctoi(c) (c)-'0'
+#define vector2(a, n, k) std::vector<std::vector<int64_t>> a(n, std::vector<int64_t>(k));
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -26,10 +27,26 @@ template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), nu
 const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
-/*
-void opt_vec (std::vector<std::vector<int64_t>> opt, int64_t vec_num, int64_t i) {
+
+void opt_vec (std::vector<std::vector<int64_t>> opt,
+                std::vector<int64_t> a, std::vector<int64_t> b, int64_t i,
+                int64_t a_left, int64_t b_left) {
+    repb(j, a_left, b_left) {
+        opt[j][a[i]]++;
+    }
+    repb(j, b_left, 2*b_left-a_left) {
+        opt[j][b[i]]++;
+    }
+
+    if (i == a.size()-1) {
+        return;
+    } else {
+        ++i;
+        opt_vec(opt, a, b, i, a_left, (a_left+b_left)/2);
+        opt_vec(opt, a, b, i, b_left, b_left+(b_left-a_left)/2);
+    }
 }
-*/
+
 int main() {
     int64_t n, m;
     cin >> n >> m;
@@ -88,9 +105,7 @@ int main() {
     }
 */
     std::vector<std::vector<int64_t>> opt(pow(2, k), std::vector<int64_t>(n, 0));
-    rep(i, k) {
-
-    }
+    opt_vec(opt, a, b, 0, 0, pow(2, k-1));
 
     rep(i, m) {
         if ( a[i] >= 1 && b[i] >= 1 ) {
