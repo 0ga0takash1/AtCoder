@@ -31,6 +31,51 @@ const int64_t MOD = 1e9+7;
 int main() {
     int64_t n, m;
     cin >> n >> m;
+
+    std::vector<int64_t> a(m), b(m);
+    rep(i, m) {
+        cin >> a[i] >> b[i];
+        // --a[i];--b[i];
+    }
+    int64_t k;
+    cin >> k;
+    std::vector<int64_t> c(k), d(k);
+    rep(i, k) {
+        cin >> c[i] >> d[i];
+        // --c[i];--d[i];
+    }
+
+    int64_t k2 = 1 << k; // 2^k通りの配分が考えられる
+    int64_t ans = 0;
+
+    // bit全探索、桁が0だったらc、1だったらdに配分する
+    rep(i, k2) {
+        // それぞれの数に対応する皿づくり
+        std::vector<int64_t> dish(n+1, 0);
+        rep(j, k) {
+            //iのj桁目 が0ならc、1ならdを選ぶ
+            if ( i>>j & 1 ) {
+                ++dish[d[j]];
+            } else {
+                ++dish[c[j]];
+            }
+        }
+
+        int64_t now = 0;
+        rep(i, m) {
+            if ( dish[a[i]] == 0 || dish[b[i]] == 0 ) continue;
+            ++now;
+            chmax(ans, now);
+        }
+        // cout << "a" << endl;
+    }
+    cout << ans << endl;
+}
+
+/*
+int main() {
+    int64_t n, m;
+    cin >> n >> m;
     std::vector<int64_t> a(m), b(m);
     rep(i, m) {
         cin >> a[i] >> b[i];
@@ -58,7 +103,7 @@ int main() {
 
     int64_t ans = 0;
     // kの選択を最大化
-    
+
 
     rep(i, m) {
         if ( a[i] >= 1 && b[i] >= 1 ) {
@@ -69,3 +114,4 @@ int main() {
 
     return 0;
 }
+*/
