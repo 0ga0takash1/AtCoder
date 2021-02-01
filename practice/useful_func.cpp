@@ -8,13 +8,17 @@ typedef int64_t i6;
 #define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
 #define repb(i, l, n) for (int64_t i = l; i < n; ++i)
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
-#define repe(a, b) for (auto&(a) : (b))
+#define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
+#define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
+#define repi(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
+#define Sort_pair(x, p) sort(ALL(x), (p))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 // #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
+#define ctoi(c) (c)-'0'
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -78,7 +82,7 @@ int nlcm(vector<int> numbers) {
 /*----------------------------------------------------------------------*/
 // 素数判定
 bool isPrime(int64_t x) {
-    int i;
+    int64_t i;
     if(x < 2)return 0;
     else if(x == 2) return 1;
     if(x%2 == 0) return 0;
@@ -99,7 +103,7 @@ int64_t digsum(int64_t n) {
 // 約数列挙
 vector<int64_t> enum_div(int64_t n) {
     vector<int64_t> ret;
-    for(int i = 1 ; i*i <= n ; ++i){
+    for(int64_t i = 1; i*i <= n; ++i){
         if(n%i == 0){
             ret.push_back(i);
             if(i != 1 && i*i != n){
@@ -107,7 +111,46 @@ vector<int64_t> enum_div(int64_t n) {
             }
         }
     }
+    Sort(ret);
     return ret;
+}
+/*----------------------------------------------------------------------*/
+// 素因数分解
+vector<pair<int64_t, int64_t> > prime_factorize(int64_t N) {
+    vector<pair<int64_t, int64_t> > res;
+    for (int64_t a = 2; a * a <= N; ++a) {
+        if (N % a != 0) continue;
+        int64_t ex = 0;
+
+        while (N % a == 0) {
+            ++ex;
+            N /= a;
+        }
+
+        res.push_back({a, ex});
+    }
+
+    if (N != 1) res.push_back({N, 1});
+    return res;
+}
+/*----------------------------------------------------------------------*/
+// 素因数分解、約数の個数
+int64_t div_num (int64_t n) {
+    vector<int64_t> x(n+1);
+	int64_t num = n;
+    int64_t ans = 1;
+
+    repb2(i, 2, n) {
+		while (num%i == 0) {
+			x.at(i)++;
+			num /= i;
+		}
+	}
+
+    repb2(i, 2, n) {
+		ans *= x.at(i)+1;
+	}
+    return ans;
 }
 /*----------------------------------------------------------------------*/
 // エラトステネスのふるい
@@ -324,7 +367,7 @@ void dfs(Graph G, int v) {
     seen[v] = true; // v を訪問済にする
 
     // v から行ける各頂点 next_v について
-    repe(next_v, G[v]) {
+    repi(next_v, G[v]) {
         if (seen[next_v]) continue; // next_v が探索済だったらスルー
         dfs(G, next_v);
     }
@@ -442,7 +485,31 @@ class DIJKSTRA {
 zi = xi+yi, wi = xi−yi とすると、
 |xi−xj| + |yi−yj| = max(|zi−zj|, |wi−wj|)
  */
+ /*----------------------------------------------------------------------*/
+// bit全探索
+int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
+    int64_t k2 = 1 << k; // 2^k通りの配分が考えられる
+
+    // bit全探索、桁が0だったらc、1だったらdに配分する
+    rep(s, k2) {
+        // それぞれの数に対応する皿づくり
+        std::vector<int64_t> dish(n+1, 0);
+        rep(i, k) {
+            //iのj桁目 が0ならc、1ならdを選ぶ
+            if ( s>>i & 1 ) {
+                ++dish[d[i]];
+            } else {
+                ++dish[c[i]];
+            }
+        }
+
+        // 以下
+
+    }
+    return 0;
+}
 /*----------------------------------------------------------------------*/
+
 int main() {
     return 0;
 }

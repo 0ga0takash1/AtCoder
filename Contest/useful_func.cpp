@@ -106,11 +106,12 @@ vector<int64_t> enum_div(int64_t n) {
     for(int64_t i = 1; i*i <= n; ++i){
         if(n%i == 0){
             ret.push_back(i);
-            if(i != 1 && i*i != n){
+            if(i*i != n){
                 ret.push_back(n/i);
             }
         }
     }
+    Sort(ret);
     return ret;
 }
 /*----------------------------------------------------------------------*/
@@ -484,7 +485,31 @@ class DIJKSTRA {
 zi = xi+yi, wi = xi−yi とすると、
 |xi−xj| + |yi−yj| = max(|zi−zj|, |wi−wj|)
  */
+ /*----------------------------------------------------------------------*/
+// bit全探索
+int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
+    int64_t k2 = 1 << k; // 2^k通りの配分が考えられる
+
+    // bit全探索、桁が0だったらc、1だったらdに配分する
+    rep(s, k2) {
+        // それぞれの数に対応する皿づくり
+        std::vector<int64_t> dish(n+1, 0);
+        rep(i, k) {
+            //iのj桁目 が0ならc、1ならdを選ぶ
+            if ( s>>i & 1 ) {
+                ++dish[d[i]];
+            } else {
+                ++dish[c[i]];
+            }
+        }
+
+        // 以下
+
+    }
+    return 0;
+}
 /*----------------------------------------------------------------------*/
+
 int main() {
     return 0;
 }
