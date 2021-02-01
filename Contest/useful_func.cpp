@@ -103,7 +103,7 @@ int64_t digsum(int64_t n) {
 // 約数列挙
 vector<int64_t> enum_div(int64_t n) {
     vector<int64_t> ret;
-    for(int64_t i = 1; i*i <= n; ++i){
+    for(int64_t i = 1; i <= sqrt(n); ++i){
         if(n%i == 0){
             ret.push_back(i);
             if(i*i != n){
