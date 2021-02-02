@@ -29,7 +29,8 @@ const int64_t MOD = 1e9+7;
 
 vector<int64_t> enum_div(int64_t n) {
     vector<int64_t> ret;
-    for(int i = 1 ; i <= sqrt(n) ; ++i){
+    // for(int64_t i = 1 ; i <= sqrt(n) ; ++i){
+    for(int64_t i = 1; i*i <= n; ++i){
         if(n%i == 0){
             ret.push_back(i);
             if(i*i != n){
