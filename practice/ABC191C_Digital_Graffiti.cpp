@@ -37,8 +37,16 @@ int main() {
         }
     }
     int64_t ans = 0;
-    rep(i, h) {
-        rep(j, w) {
+    rep(i, h-1) {
+        rep(j, w-1) {
+            int count = 0;
+            rep(ii, 2) {
+                rep(jj, 2) {
+                    if ( s[i+ii][j+jj] == '#' ) ++count;
+                }
+            }
+            if ( count == 1 || count == 3 ) ++ans;
+            /*
             if ( s[i][j] == '#' ) {
                 int num4 = 0;
                 if ( i-1 >= 0 && s[i-1][j] == '#' ) num4++;
@@ -50,6 +58,7 @@ int main() {
                     ans++;
                 }
             }
+            */
         }
     }
     cout << ans << endl;

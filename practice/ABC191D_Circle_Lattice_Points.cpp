@@ -30,6 +30,59 @@ const int64_t MOD = 1e9+7;
 int main() {
     double x, y, r;
     cin >> x >> y >> r;
+    x *= 10000;y *= 10000;r *= 10000;
+    int64_t ans = 0;
+    int64_t cnt_over = 0, cnt_under = 0;
+    repb(xx, x-r, x) {
+        double sx = abs(xx-x);
+        repb2(yy, y+cnt_over, y+r) {
+            double sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                break;
+            }
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y-cnt_under; yy >= y-r; --yy) {
+            double sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_under-1;
+                break;
+            }
+            ++cnt_under;
+        }
+    }
+
+    cnt_over = 0, cnt_under = 0;
+    for (int64_t xx = x+r; xx >= x; --xx) {
+        double sx = abs(xx-x);
+        repb2(yy, y+cnt_over, y+r) {
+            double sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                break;
+            }
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y-cnt_under; yy >= y-r; --yy) {
+            double sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_under-1;
+                break;
+            }
+            ++cnt_under;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
+
+/*
+int main() {
+    double x, y, r;
+    cin >> x >> y >> r;
     int64_t ans = 0;
     repb2(xx, x-r, x+r) {
         double sx = abs(xx-x);
@@ -59,8 +112,9 @@ int main() {
                 ++ans;
             }
         }
-        */
+
     }
     cout << ans << endl;
     return 0;
 }
+*/
