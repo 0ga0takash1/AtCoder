@@ -27,6 +27,131 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
+int64_t in() {
+    double in;
+    cin >> in;
+    in *= 10000;
+    return round(in);
+}
+
+int main() {
+    int64_t x = in(), y = in(), r = in();
+
+    int64_t ans = 0;
+    int64_t cnt_over = 0, cnt_under = 1;
+    // for (int64_t xx = (x-r)/10000; xx < x/10000; ++xx) {
+    repc(xx, x-r, x, 10000) {
+        int64_t sx = abs(xx-x);
+        // for (int64_t yy = y/10000+cnt_over; yy <= (y+r)/10000; ++yy) {
+        repc2(yy, y+cnt_over*10000, y+r, 10000) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                continue;
+            }
+            // cout << "axx" << xx << " ayy" << yy << endl;
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y-cnt_under*10000; yy >= y-r; yy -= 10000) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                // ans += max(cnt_under-1, (int64_t)0);
+                ans += cnt_under;
+                continue;
+            }
+            // cout << "bxx" << xx << " byy" << yy << endl;
+            ++cnt_under;
+        }
+    }
+    // cout << "a" << ans << endl;
+
+    cnt_over = 0, cnt_under = 1;
+    for (int64_t xx = x+r; xx >= x; xx -= 10000) {
+        int64_t sx = abs(xx-x);
+        // for (int64_t yy = y+cnt_over*10000; yy <= y+r; yy += 10000) {
+        repc2(yy, y+cnt_over*10000, y+r, 10000) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                continue;
+            }
+            // cout << "cxx" << xx << " cyy" << yy << endl;
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y-cnt_under*10000; yy >= y-r; yy -= 10000) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                // ans += max(cnt_under-1, (int64_t)0);
+                ans += cnt_under;
+                continue;
+            }
+            // cout << "dxx" << xx << " dyy" << yy << endl;
+            ++cnt_under;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
+
+/*
+int main() {
+    int64_t x = in(), y = in(), r = in();
+    // x %= 10000;y %= 10000;r %= 10000;
+
+    int64_t ans = 0;
+    int64_t cnt_over = 0, cnt_under = 0;
+    // repb(xx, x-r, x) {
+    for (int64_t xx = (x-r)/10000; xx < x/10000; ++xx) {
+        int64_t sx = abs(xx*10000-x);
+        // repb2(yy, y+cnt_over, y+r) {
+        for (int64_t yy = y/10000+cnt_over; yy <= (y+r)/10000; ++yy) {
+            int64_t sy = abs(y-yy*10000);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                continue;
+            }
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y/10000-cnt_under; yy >= (y-r)/10000; --yy) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += max(cnt_under-1, (int64_t)0);
+                continue;
+            }
+            ++cnt_under;
+        }
+    }
+
+    cnt_over = 0, cnt_under = 0;
+    for (int64_t xx = (x+r)/10000; xx >= x/10000; --xx) {
+        int64_t sx = abs(xx-x);
+        // repb2(yy, y+cnt_over, y+r) {
+        for (int64_t yy = y/10000+cnt_over; yy <= (y+r)/10000; ++yy) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                continue;
+            }
+            ++cnt_over;
+        }
+
+        for (int64_t yy = y/10000-cnt_under; yy >= (y-r)/10000; --yy) {
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += max(cnt_under-1, (int64_t)0);
+                continue;
+            }
+            ++cnt_under;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
+*/
+/*
 int main() {
     double x, y, r;
     cin >> x >> y >> r;
@@ -78,6 +203,7 @@ int main() {
     cout << ans << endl;
     return 0;
 }
+*/
 
 /*
 int main() {
