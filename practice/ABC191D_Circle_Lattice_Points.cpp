@@ -33,7 +33,7 @@ int64_t in() {
     in *= 10000;
     return round(in);
 }
-
+/*
 int64_t adjust(int64_t num) {
     if ( num%10000 ) {
         int64_t i = 0;
@@ -56,15 +56,83 @@ int64_t adjust(int64_t num) {
         }
     }
     return num;
+}*/
+void adjust(int64_t left, int64_t right, int64_t over_bottom) {
+    if ( left%10000 ) {
+        int64_t i = 0;
+        if ( left >= 0 ) {
+            while(1) {
+                if ( i>left ) {
+                    left = i;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<left ) {
+                    left = i+10000;
+                    break;
+                }
+                i -= 10000;
+            }
+        }
+    }
+    if ( right%10000 ) {
+        int64_t i = 0;
+        if ( right >= 0 ) {
+            while(1) {
+                if ( i>right ) {
+                    right = i-10000;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<right ) {
+                    right = i;
+                    break;
+                }
+                i -= 10000;
+            }
+        }
+    }
+
+    if ( over_bottom%10000 ) {
+        int64_t i = 0;
+        if ( over_bottom >= 0 ) {
+            while(1) {
+                if ( i>over_bottom ) {
+                    over_bottom = i;
+                    cout << over_bottom << endl;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<over_bottom ) {
+                    over_bottom = i+10000;
+                }
+                i -= 10000;
+            }
+        }
+    }
+    return;
 }
 
+// void
 int64_t solve(int64_t x, int64_t y, int64_t r, int64_t xx,
+                int64_t cnt1, int64_t cnt2,
                 int64_t over_bottom, int64_t under_top) {
-    int64_t ans = 0, sx = abs(xx-x), yy = over_bottom;
-    int64_t cnt1 = 1, cnt2 = 1;
+    int64_t ans = 0;
+    int64_t sx = abs(xx-x);
+    int64_t yy = over_bottom;
     while(1) {
+        yy = over_bottom+(cnt1-1)*10000;
         if ( yy > y+r ) {
-            ans += cnt1;
+            // ans += cnt1;
             break;
         }
 
@@ -74,13 +142,14 @@ int64_t solve(int64_t x, int64_t y, int64_t r, int64_t xx,
             break;
         }
         ++cnt1;
-        yy += 10000;
+        // yy += 10000;
     }
 
     yy = under_top;
     while(1) {
+        yy = under_top-(cnt2-1)*10000;
         if ( yy < y-r ) {
-            ans += cnt2;
+            // ans += cnt2;
             break;
         }
 
@@ -90,7 +159,7 @@ int64_t solve(int64_t x, int64_t y, int64_t r, int64_t xx,
             break;
         }
         ++cnt2;
-        yy -= 10000;
+        // yy -= 10000;
     }
 
     return ans;
@@ -100,16 +169,155 @@ int64_t solve(int64_t x, int64_t y, int64_t r, int64_t xx,
 int main() {
     int64_t x = in(), y = in(), r = in();
 
-    int64_t left = adjust(x-r), right = adjust(x+r),
-        over_bottom = adjust(y), under_top = over_bottom-10000;
+    // int64_t left = adjust(x-r), right = adjust(x+r), over_bottom = adjust(y), under_top = over_bottom-10000;
+    int64_t left = x-r, right = x+r, over_bottom = y;
+    if ( left%10000 ) {
+        int64_t i = 0;
+        if ( left >= 0 ) {
+            while(1) {
+                if ( i>left ) {
+                    left = i;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<left ) {
+                    left = i+10000;
+                    break;
+                }
+                i -= 10000;
+            }
+        }
+    }
+    if ( right%10000 ) {
+        int64_t i = 0;
+        if ( right >= 0 ) {
+            while(1) {
+                if ( i>right ) {
+                    right = i-10000;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<right ) {
+                    right = i;
+                    break;
+                }
+                i -= 10000;
+            }
+        }
+    }
+
+    if ( over_bottom%10000 ) {
+        int64_t i = 0;
+        if ( over_bottom >= 0 ) {
+            while(1) {
+                if ( i>over_bottom ) {
+                    over_bottom = i;
+                    break;
+                }
+                i += 10000;
+            }
+        } else {
+            while(1) {
+                if ( i<over_bottom ) {
+                    over_bottom = i+10000;
+                }
+                i -= 10000;
+            }
+        }
+    }
+    // adjust(left, right, over_bottom);
+    int64_t under_top = over_bottom-10000;
+    // cout << "l r b t" << left/10000 << " " << right/10000 << " " << over_bottom << " " << under_top/10000 << endl;
 
     int64_t ans = 0;
+    int64_t cnt_over = 1, cnt_under = 1;
+    /*
     repc(xx, left, x, 10000) {
-        ans += solve(x, y, r, xx, over_bottom, under_top);
+        ans += solve(x, y, r, xx, cnt_over, cnt_under, over_bottom, under_top);
+        // solve(x, y, r, xx, ans, cnt_over, cnt_under, over_bottom, under_top);
     }
 
     for (int64_t xx = right; xx >= x; xx -= 10000) {
-        ans += solve(x, y, r, xx, over_bottom, under_top);
+        ans += solve(x, y, r, xx, cnt_over, cnt_under, over_bottom, under_top);
+        // solve(x, y, r, xx, ans, cnt_over, cnt_under, over_bottom, under_top);
+    }*/
+    repc(xx, left, x, 10000) {
+        int64_t sx = abs(xx-x);
+
+        int64_t yy = over_bottom+(cnt_over-1)*10000;
+        while(1) {
+            if ( yy > y+r ) {
+                ans += cnt_over;
+                break;
+            }
+
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                break;
+            }
+            ++cnt_over;
+            yy += 10000;
+        }
+
+        yy = under_top-(cnt_under-1)*10000;
+        while(1) {
+            if ( yy < y-r ) {
+                ans += cnt_under;
+                break;
+            }
+
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_under;
+                break;
+            }
+            ++cnt_under;
+            yy -= 10000;
+        }
+    }
+
+    cnt_over = 1, cnt_under = 1;
+    for (int64_t xx = right; xx >= x; xx -= 10000) {
+        int64_t sx = abs(xx-x);
+
+        int64_t yy = over_bottom+(cnt_over-1)*10000;
+        while(1) {
+            if ( yy > y+r ) {
+                ans += cnt_over;
+                break;
+            }
+
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_over;
+                break;
+            }
+            ++cnt_over;
+            yy += 10000;
+        }
+
+        yy = under_top-(cnt_under-1)*10000;
+        while(1) {
+            if ( yy < y-r ) {
+                ans += cnt_under;
+                break;
+            }
+
+            int64_t sy = abs(y-yy);
+            if ( sx*sx+sy*sy > r*r ) {
+                ans += cnt_under;
+                break;
+            }
+            ++cnt_under;
+            yy -= 10000;
+        }
     }
 
     cout << ans << endl;
