@@ -28,14 +28,5 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, m, x, y;
-    cin >> n >> m >> x >> y;
-    Graph G(n+1);
-    std::vector<int64_t> a(m), b(m), t(m), k(m);
-    rep(i, m) {
-        cin >> a[i] >> b[i] >> t[i] >> k[i];
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
-    }
     return 0;
 }

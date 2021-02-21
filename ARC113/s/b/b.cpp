@@ -28,14 +28,15 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, m, x, y;
-    cin >> n >> m >> x >> y;
-    Graph G(n+1);
-    std::vector<int64_t> a(m), b(m), t(m), k(m);
-    rep(i, m) {
-        cin >> a[i] >> b[i] >> t[i] >> k[i];
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
-    }
+    int64_t a, b, c;
+    cin >> a >> b >> c;
+    std::vector<int64_t> v;
+    v.push_back(a%10);
+    int64_t i = 1;
+    while( !find_num(v, (v[v.size()-1]*a)%10) ) v.push_back( (v[v.size()-1]*a)%10 );
+    int64_t num = pow(b, c);
+    num %= v.size();
+    // cout << num << endl;
+    cout << v[max(num-1, (int64_t)0)] << endl;
     return 0;
 }

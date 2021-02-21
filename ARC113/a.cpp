@@ -27,15 +27,45 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int main() {
-    int64_t n, m, x, y;
-    cin >> n >> m >> x >> y;
-    Graph G(n+1);
-    std::vector<int64_t> a(m), b(m), t(m), k(m);
-    rep(i, m) {
-        cin >> a[i] >> b[i] >> t[i] >> k[i];
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
+vector<int64_t> enum_div(int64_t n) {
+    vector<int64_t> ret;
+    for(int64_t i = 1; i*i <= n; ++i){
+        if(n%i == 0){
+            ret.push_back(i);
+            if(i*i != n){
+                ret.push_back(n/i);
+            }
+        }
     }
+    Sort(ret);
+    return ret;
+}
+
+int main() {
+    int64_t n;
+    cin >> n;
+    std::vector<int64_t> v = enum_div(n);
+    int64_t ans = 0;
+    rep(i, v.size()) {
+        int64_t bc = n/v[i];
+        for(int64_t j = 1; j*j <= bc; ++j){
+            if(bc%j == 0){
+                if ( j == v[i] ) { // a = b
+                    if ( bc/j == v[i] ) { // a = b = c
+                        ans += n;
+                    } else { // a = b b != c
+                        ans += 3*n;
+                    }
+                } else { // a != b
+                    if ( bc/j == v[i] ) { // a = c a != b
+                        ans += 3*n;
+                    } else { // a != b != c
+                        ans += 6*n;
+                    }
+                }
+            }
+        }
+    }
+    cout << ans << endl;
     return 0;
 }

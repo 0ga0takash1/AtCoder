@@ -27,36 +27,31 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t convert(int64_t x, int64_t n){
-    int64_t y=0, i=0, z;
-    while(x > 0){
-        z = x%n;
-        y += z*pow(10, i);
-        x = x/n;
-        i++;
+std::vector<string> change_base(int64_t a, int64_t base) {
+    std::vector<string> s;
+    if( a == 0 ) {
+        s.push_back("0");
+        return s;
     }
-    return y;
-}
-
-string change_base(int64_t a, int64_t base) {
-    if(a==0) return "0";
-    stringstream ss;
-    int64_t ex = 0;
     while(a){
-        int64_t rest = a%base+ex;
-        if ( rest >= 10 ) {
-            ex = rest/10;
-            rest %= 10;
-        } else {
-            ex = 0;
-        }
-        ss << rest;
+        int64_t rest = a%base;
+        s.push_back( to_string(rest) );
         a /= base;
     }
-    ss << ex;
-    string s = ss.str();
     reverse(ALL(s));
     return s;
+}
+
+bool Compare_string_number ( string s, vector<string> v ) {
+    rep(i, s.size()) {
+        int64_t a = ctoi(s[i]), b = atoi(v[i].c_str());
+        if ( a > b ) {
+            return false;
+        } else if ( a < b ) {
+            return true;
+        }
+    }
+    return true;
 }
 
 int main() {
@@ -68,24 +63,16 @@ int main() {
     Sort_rev(x);
     int64_t ans = 0;
     for (int64_t i = ctoi(x[0])+1;; ++i) {
-        // int64_t m2 = convert(m, i);
-        // string m_s = to_string(m2);
-        string m_s = change_base(m, i);
-        int64_t m2 = atoi(m_s.c_str());
-        if ( m_s.length() > x.length() ) {
-            // cout << x << " " << m_s << endl;
+        std::vector<string> m_s = change_base(m, i);
+        if ( m_s.size() > x.size() ) {
             ++ans;
-        } else if ( m_s.length() == x.length() ) {
-            // cout << "a " << xx << " " << m2 << endl;
-            if ( xx <= m2 ) {
+        } else if ( m_s.size() == x.size() ) {
+            if ( Compare_string_number(x, m_s) ) {
                 ++ans;
             } else {
-                // cout << "Yes1" << endl;
                 break;
             }
         } else {
-            // cout << "Yes2" << endl;
-            // cout << m_s << " " << x << endl;
             break;
         }
     }

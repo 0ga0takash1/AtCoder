@@ -89,7 +89,14 @@ int64_t adjust_right(int64_t right) {
         }
     }
 */
-    return (right/10000)*10000;
+    if ( right%10000 ) {
+        if ( right >= 0 ) {
+            return (right/10000)*10000;
+        } else {
+            return (right/10000-1)*10000;
+        }
+    }
+    return right;
 }
 
 int64_t adjust_bottom(int64_t over_bottom) {
@@ -143,6 +150,7 @@ int main() {
             yy += 10000;
         }
         --cnt_over;
+        if ( cnt_over < 1 ) cnt_over = 1;
         ans += cnt_over;
 
         yy = under_top-(cnt_under-1)*10000;
@@ -151,6 +159,7 @@ int main() {
             yy -= 10000;
         }
         --cnt_under;
+        if ( cnt_under < 1 ) cnt_under = 1;
         ans += cnt_under-1;
     }
 
@@ -164,6 +173,7 @@ int main() {
             yy += 10000;
         }
         --cnt_over;
+        if ( cnt_over < 1 ) cnt_over = 1;
         ans += cnt_over;
 
         yy = under_top-(cnt_under-1)*10000;
@@ -172,6 +182,7 @@ int main() {
             yy -= 10000;
         }
         --cnt_under;
+        if ( cnt_under < 1 ) cnt_under = 1;
         ans += cnt_under-1;
     }
 

@@ -28,14 +28,43 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n, m, x, y;
-    cin >> n >> m >> x >> y;
-    Graph G(n+1);
-    std::vector<int64_t> a(m), b(m), t(m), k(m);
-    rep(i, m) {
-        cin >> a[i] >> b[i] >> t[i] >> k[i];
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
+    string s;
+    cin >> s;
+    int64_t ans = 0;
+    char ever_c;
+    int64_t ever_i = s.length()-1;
+    // map<char, int64_t> mp;
+    for (int64_t i = s.length()-2; i > 0; --i) {
+        if ( s[i] == s[i-1] ) {
+            if ( s[i] != s[i+1] ) {
+                ans += s.length()-(i+1);
+                if ( ever_c == s[i] ) {
+                    ans -= s.length()-ever_i;
+                }
+                repb(j, i+2, ever_i) {
+                    if ( s[j] == s[i] ) {
+                        ans--;
+                    }
+                }
+                ever_c = s[i];
+                ever_i = i-1;
+            }
+
+            if ( s[i] == ever_c ) {
+                ever_i = i-1;
+            }
+        }
+        /*
+        auto itr = mp.find(s[i]);
+        if( itr != mp.end() ) {
+            if ( s[i] == s[i-1] && s[i] != s[i+1] ) {
+                ans -= itr->second;
+            }
+            itr->second++;
+        } else {
+            mp[s[i]] = 1;
+        }*/
     }
+    cout << ans << endl;
     return 0;
 }
