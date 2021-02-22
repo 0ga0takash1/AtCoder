@@ -31,7 +31,8 @@ vector<int64_t> enum_div(int64_t n) {
     vector<int64_t> ret;
     for(int64_t i = 1; i*i <= n; ++i){
         if(n%i == 0){
-            ret.push_back(i);
+            // ret.push_back(i);
+
             if(i*i != n){
                 ret.push_back(n/i);
             }
@@ -48,19 +49,24 @@ int main() {
     int64_t ans = 0;
     rep(i, v.size()) {
         int64_t bc = n/v[i];
-        for(int64_t j = 1; j*j <= bc; ++j){
-            if(bc%j == 0){
-                if ( j == v[i] ) { // a = b
-                    if ( bc/j == v[i] ) { // a = b = c
+        for(int64_t b = 1; b*b <= bc; ++b){
+            if( bc%b == 0 ) {
+                int64_t a = v[i], c = bc/b;
+                if ( a == b ) {
+                    if ( a == c ) {
                         ans += n;
-                    } else { // a = b b != c
+                    } else {
                         ans += 3*n;
+                        ans -= 2*min(a, min(b, c));
                     }
-                } else { // a != b
-                    if ( bc/j == v[i] ) { // a = c a != b
+                } else {
+                    if ( a == c ) {
                         ans += 3*n;
-                    } else { // a != b != c
+                        ans -= 2*min(a, min(b, c));
+                    } else {
                         ans += 6*n;
+                        // ans -= min(a, min(b, c));
+                        ans -= a+b+c-max(a, max(b, c));
                     }
                 }
             }

@@ -27,16 +27,33 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
+int64_t pow_mod(int64_t x, int64_t n, int64_t mod) {
+    int64_t res = 1;
+    while(n > 0) {
+        if (n & 1) {
+            res = res*x%mod;
+        }
+        x = x*x%mod;
+        n >>= 1;
+    }
+    return res;
+}
+
 int main() {
     int64_t a, b, c;
     cin >> a >> b >> c;
+    a %= 10;
     std::vector<int64_t> v;
-    v.push_back(a%10);
-    int64_t i = 1;
-    while( !find_num(v, (v[v.size()-1]*a)%10) ) v.push_back( (v[v.size()-1]*a)%10 );
-    int64_t num = pow(b, c);
-    num %= v.size();
+    v.push_back(a);
+    while( !find_num(v, ( v[v.size()-1]*(a%10) )%10) ) v.push_back( ( v[v.size()-1]*(a%10) )%10 );
+    int64_t num = pow_mod(b, c, v.size());
+    // num %= v.size()+1;
     // cout << num << endl;
-    cout << v[max(num-1, (int64_t)0)] << endl;
+    // cout << v[max(num-1, (int64_t)0)] << endl;
+    if ( num ) {
+        cout << v[num-1] << endl;
+    } else {
+        cout << v[v.size()-1] << endl;
+    }
     return 0;
 }

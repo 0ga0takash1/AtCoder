@@ -10,6 +10,13 @@ typedef int64_t i6;
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
 #define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
+#define rep_(i, r) for (int64_t i = r; i > 0; --i)
+#define rep_2(i, r) for (int64_t i = r; i >= 0; --i)
+#define rep_b(i, r, l) for (int64_t i = r; i > l; --i)
+#define rep_b2(i, r, l) for (int64_t i = r; i >= l; --i)
+#define rep_c(i, r, l, d) for (int64_t i = r; i > l; i-=d)
+#define rep_c2(i, r, l, d) for (int64_t i = r; i >= l; i-=d)
+#define repf(i, l, c, d) for (int64_t i = l; c; i+=d)
 #define repi(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
@@ -153,6 +160,50 @@ int64_t div_num (int64_t n) {
     return ans;
 }
 /*----------------------------------------------------------------------*/
+// A*B*C = nとなるnから、A,B,Cの組み合わせ
+int64_t ABC_n (int64_t n) {
+    int64_t ans = 0;
+    rep2(a, n) {
+        for (int64_t b = 1; a*b <= n; ++b) {
+            ans += n/a/b;
+        }
+    }
+    return ans;
+}
+/*----------------------------------------------------------------------*/
+// 整数nのd桁以下の切り捨て
+// truncate(123456789, 3) == 123456000
+// truncate(123456789, 5) == 123400000
+int64_t truncate (int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) n/=ten;n*=ten;
+    return n;
+}
+
+// 整数nのd桁以下の四捨五入
+// rounding(123456789, 5) == 123500000
+// rounding(123456789, 6) == 123000000
+int64_t rounding(int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) {
+        n += 5*pow(10, d-1);
+        n/=ten;n*=ten;
+    }
+    return n;
+}
+
+// 整数nのd桁以下の切り上げ
+// round_up(123456789, 2) == 123456800
+// round_up(123456789, 5) == 123500000
+int64_t round_up(int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) {
+        n += pow(10, d);
+        n/=ten;n*=ten;
+    }
+    return n;
+}
+/*----------------------------------------------------------------------*/
 // エラトステネスのふるい
 std::vector<int64_t> Eratosthenes( int64_t n ) {
     std::vector<int64_t> is_prime(n+1, 1);
@@ -191,7 +242,7 @@ int64_t nCr(int64_t n , int64_t r) {
     }
 }
 /*----------------------------------------------------------------------*/
-
+// MOD
 const int64_t MOD = 1e9+7;
 
 int64_t Mod(int64_t a, int64_t mod) {

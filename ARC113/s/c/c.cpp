@@ -32,7 +32,7 @@ int main() {
     cin >> s;
     int64_t ans = 0;
     char ever_c;
-    int64_t ever_i = s.length()-1;
+    int64_t ever_i = s.length();
     // map<char, int64_t> mp;
     for (int64_t i = s.length()-2; i > 0; --i) {
         if ( s[i] == s[i-1] ) {

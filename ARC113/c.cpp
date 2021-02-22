@@ -32,12 +32,13 @@ int main() {
     cin >> s;
     int64_t ans = 0;
     char ever_c;
-    int64_t ever_i = s.length()-1;
+    int64_t ever_i = s.length();
     // map<char, int64_t> mp;
     for (int64_t i = s.length()-2; i > 0; --i) {
         if ( s[i] == s[i-1] ) {
             if ( s[i] != s[i+1] ) {
                 ans += s.length()-(i+1);
+                // cout << "a: " << ans << endl;
                 if ( ever_c == s[i] ) {
                     ans -= s.length()-ever_i;
                 }
@@ -48,11 +49,13 @@ int main() {
                 }
                 ever_c = s[i];
                 ever_i = i-1;
+                // cout << "b: " << ans << endl;
             }
 
             if ( s[i] == ever_c ) {
                 ever_i = i-1;
             }
+            // cout << "c: " << ans << endl;
         }
         /*
         auto itr = mp.find(s[i]);
