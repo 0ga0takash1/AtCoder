@@ -55,17 +55,24 @@ int main() {
     }
 */
     int64_t a = 2, ans = n;
+    std::vector<int64_t> seen;
     while( right >= 2 ) {
-        if ( pow(a, right) <= n ) {
-            ans -= right-1;
-        } else {
-            repb2(b, 2, right) {
-                if ( pow(a, b) > n ) {
-                    right = b-1;
-                    // ans -= right-1;
-                    break;
-                } else {
-                    --ans;
+        if ( !find_num(seen, a) ) {
+            seen.push_back(a);
+            if ( pow(a, right) <= n ) {
+                ans -= right-1;
+            } else {
+                repb2(b, 2, right) {
+                    int64_t num = pow(a, b);
+                    if ( num > n ) {
+                        right = b-1;
+                        // ans -= right-1;
+                        break;
+                    } else {
+                        // seen[pow(a, b)] = 1;
+                        seen.push_back(num);
+                        --ans;
+                    }
                 }
             }
         }

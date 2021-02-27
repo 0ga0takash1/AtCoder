@@ -38,47 +38,14 @@ int main() {
     int64_t n;
     cin >> n;
 
-    int64_t right = n;
-/*
-    int64_t i = 2, ans = n;
-    while( right > 2 ) {
-        repb(j, 2, right) {
-            if ( pow(j, i) > n ) {
-                right = j;
-                break;
-            } else {
-                --ans;
-            }
+    unordered_set<int64_t> s;
+    repf(a, 2, a*a <= n, 1) {
+        int64_t x = a*a;
+        while(x <= n) {
+            s.insert(x);
+            x *= a;
         }
-        // cout << "r:" << i << " " << right << " " << ans << endl;
-        ++i;
     }
-*/
-    int64_t a = 2, ans = n;
-    std::vector<int64_t> seen;
-    while( right >= 2 ) {
-        if ( !find_num(seen, a) ) {
-            seen.push_back(a);
-            if ( pow(a, right) <= n ) {
-                ans -= right-1;
-            } else {
-                repb2(b, 2, right) {
-                    int64_t num = pow(a, b);
-                    if ( num > n ) {
-                        right = b-1;
-                        // ans -= right-1;
-                        break;
-                    } else {
-                        // seen[pow(a, b)] = 1;
-                        seen.push_back(num);
-                        --ans;
-                    }
-                }
-            }
-        }
-        // cout << "r:" << a << " " << right << " " << ans << endl;
-        ++a;
-    }
-    cout << ans << endl;
+    cout << n-s.size() << endl;
     return 0;
 }
