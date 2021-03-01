@@ -56,13 +56,17 @@ int main() {
     string s, t;
     cin >> s;
     cin >> t;
-    std::vector<int64_t> remain(10, k);
+    std::vector<int64_t> v(11, 0);
     rep(i, 4) {
-        remain[ctoi(s[i])]--;
-        remain[ctoi(t[i])]--;
+        v[ctoi(s[i])]++;
+        v[ctoi(t[i])]++;
     }
 
-    long double ans = 0;
+    vector<int64_t> remain;
+    rep2(i, 9) {
+        rep(j, k-v[i]) remain.push_back(i);
+    }
+    int64_t ans = 0;
     std::vector<std::vector<int64_t>> what_win(10, std::vector<int64_t>(10, 0));
     rep2(i, 9) {
         rep2(j, 9) {
@@ -72,23 +76,14 @@ int main() {
             what_win[i][j] = compare_st(s2, t2);
         }
     }
-    
-    rep2(i, 9) {
-        if ( !remain[i] ) continue;
-        rep2(j, 9) {
-            if ( !remain[j] ) continue;
-            if ( i == j && remain[j] <= 1 ) continue;
-            if ( what_win[i][j] ) {
-                if ( i != j ) {
-                    ans += remain[i]*remain[j];
-                } else {
-                    ans += remain[i]*(remain[i]-1);
-                }
-            }
+
+    rep(i, 9*k-9) {
+        repb(j, i+1, 9*k-8) {
+            if ( what_win[remain[i]][remain[j]] ) ++ans;
         }
     }
 
     ans /= (9*k-8)*(9*k-9);
-    cout << setprecision(10) << ans << endl;
+    cout << ans << endl;
     return 0;
 }
