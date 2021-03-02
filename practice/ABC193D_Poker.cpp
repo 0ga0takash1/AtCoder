@@ -41,7 +41,7 @@ int64_t compare_st (string s, string t) {
         ++ss[ctoi(s[i])];
         ++tt[ctoi(t[i])];
     }
-    repb2(k, 1, 9) {
+    rep2(k, 9) {
         s_point += k*pow(10, ss[k]);
         t_point += k*pow(10, tt[k]);
     }
@@ -72,7 +72,7 @@ int main() {
             what_win[i][j] = compare_st(s2, t2);
         }
     }
-    
+
     rep2(i, 9) {
         if ( !remain[i] ) continue;
         rep2(j, 9) {
