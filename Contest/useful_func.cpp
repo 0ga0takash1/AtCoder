@@ -25,7 +25,7 @@ typedef int64_t i6;
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 // #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
-#define ctoi(c) (c)-'0'
+#define ctoi(c) ((c)-'0')
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -158,6 +158,38 @@ int64_t div_num (int64_t n) {
 		ans *= x.at(i)+1;
 	}
     return ans;
+}
+/*----------------------------------------------------------------------*/
+// n進数変換
+std::vector<int64_t> change_base(int64_t a, int64_t base) {
+    std::vector<int64_t> res;
+    if( a == 0 ) {
+        res.push_back(0);
+        return res;
+    }
+    while(a){
+        int64_t rest = a%base;
+        res.push_back(rest);
+        a /= base;
+    }
+    reverse(ALL(res));
+    return res;
+}
+
+// stringとchange_base()した数を比較
+bool Compare_string_number ( string s, vector<int64_t> v ) {
+    if ( v.size() > s.size() ) return true;
+    if ( v.size() < s.size() ) return false;
+
+    rep(i, s.size()) {
+        int64_t a = ctoi(s[i]), b = v[i];//atoi(v[i].c_str());
+        if ( a > b ) {
+            return false;
+        } else if ( a < b ) {
+            return true;
+        }
+    }
+    return true;
 }
 /*----------------------------------------------------------------------*/
 // A*B*C = nとなるnから、A,B,Cの組み合わせ
@@ -560,6 +592,16 @@ int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
     return 0;
 }
 /*----------------------------------------------------------------------*/
+// 二分探索
+int64_t Binary_search () {
+    int64_t ok = 0, ng = INF;
+    while ( ok+1 < ng ) {
+        int64_t num = (ok+ng)/2;
+        if ( /*条件*/1 ) ok = num;
+        else ng = num;
+    }
+    return ok;
+}
 
 int main() {
     return 0;
