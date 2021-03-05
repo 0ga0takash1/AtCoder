@@ -80,7 +80,8 @@ int64_t solve(int64_t x, int64_t y, int64_t r,
     }
 
     int64_t cnt_over = 1, cnt_under = 1;
-    repf(xx, l_r, min(x, xx) <= max(x, xx), num_10000) {
+    int64_t xxx = l_r-x;
+    repf(xx, l_r, xxx*(xx-x) >= 0, num_10000) {
         int64_t yy = over_bottom+(cnt_over-1)*10000;
         while( (xx-x)*(xx-x)+(y-yy)*(y-yy) <= r*r ) {
             ++cnt_over;
@@ -89,7 +90,6 @@ int64_t solve(int64_t x, int64_t y, int64_t r,
         --cnt_over;
         ans += cnt_over;
         if ( cnt_over < 1 ) cnt_over = 1;
-        cout << "Yes" << endl;
 
         yy = under_top-(cnt_under-1)*10000;
         while( (xx-x)*(xx-x)+(y-yy)*(y-yy) <= r*r ) {
@@ -126,7 +126,6 @@ int main() {
     return 0;
 }
 */
-
 
 int main() {
     int64_t x = in(), y = in(), r = in();
@@ -190,7 +189,6 @@ int main() {
     cout << ans << endl;
     return 0;
 }
-
 
 /*
 int64_t adjust_left(int64_t left) {

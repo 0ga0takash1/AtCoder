@@ -24,7 +24,7 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define Sort_pair(x, p) sort(ALL(x), (p))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
-#define ctoi(c) (c)-'0'
+#define ctoi(c) ((c)-'0')
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -37,15 +37,78 @@ const int64_t MOD = 1e9+7;
 int main() {
     int64_t n;
     cin >> n;
+/*
+    std::vector<string> s(n);
+    rep(i, n) {
+        cin >> s[i];
+    }
 
-    unordered_set<int64_t> s;
-    repf(a, 2, a*a <= n, 1) {
-        int64_t x = a*a;
-        while(x <= n) {
-            s.insert(x);
-            x *= a;
+    std::vector<int64_t> v(n+1);
+    v[n] = 1;
+    rep_(i, n) {
+        if ( s[i-1] == "OR" ) {
+            v[i-1] = v[i]+(1<<i);
+        } else {
+            v[i-1] = v[i];
         }
     }
-    cout << n-s.size() << endl;
+    cout << v[0] << endl;
+*/
+
+    std::vector<int64_t> dp(2,1);
+    rep(i,n) {
+        string s;
+        cin>>s;
+        vector<int64_t> p(2);
+        swap(dp,p);
+        rep(j,2)rep(k,2) {
+            int nj = j;
+            if (s == "AND") nj &= k;
+            else nj |= k;
+            dp[nj] += p[j];
+        }
+    }
+    cout<<dp[1]<<endl;
     return 0;
 }
+
+/*
+int64_t ans = 1;
+rep_2(i, n-1) {
+    if ( s[i] == "OR" ) {
+        ans *= 2;
+    }
+}
+cout << ans << endl;
+*/
+/*
+int64_t n2 = 1 << (n+1);
+std::vector<int64_t> y(n+1);
+
+rep(i, n2) {
+    rep(j, n+1) {
+        // cout << (i>>j) << " ";
+        cout << ( (i>>j & 1) ? 1 : 0 ) << " ";
+    }
+    cout << endl;
+}
+*/
+/*
+rep(x, n2) {
+    y[0] = (x>>0 & 1) ? 1:0;
+    rep2(i, n) {
+        if ( s[i-1] == "AND" ) {
+            y[i] = (y[i-1]&&(x>>i & 1)) ? 1:0;
+        } else {
+            y[i] = (y[i-1]||(x>>i & 1)) ? 1:0;
+        }
+    }
+    // rep(i, n+1) cout << y[i] << " ";
+    // cout << endl;
+    if (y[n]) {
+        ++ans;
+        // cout << x << endl;
+    }
+}
+cout << ans << endl;
+*/
