@@ -38,6 +38,24 @@ int main() {
     int64_t n;
     cin >> n;
 
+    std::vector<int64_t> dp(2,1);
+    rep(i,n) {
+        string s;
+        cin>>s;
+        vector<int64_t> p(2);
+        swap(dp,p);
+        rep(j,2)rep(k,2) {
+            int nj = j;
+            if (s == "AND") nj &= k;
+            else nj |= k;
+            dp[nj] += p[j];
+        }
+        cout<<dp[1]<<" ";
+    }
+    cout<<dp[1]<<endl;
+    return 0;
+}
+/*
     std::vector<string> s(n);
     rep(i, n) {
         cin >> s[i];
@@ -51,29 +69,9 @@ int main() {
         } else {
             v[i-1] = v[i];
         }
-        // cout << v[i] << " ";
     }
     cout << v[0] << endl;
-
-    /*
-    std::vector<int64_t> dp(2,1);
-    rep(i,n) {
-        string s;
-        cin>>s;
-        vector<int64_t> p(2);
-        swap(dp,p);
-        rep(j,2)rep(k,2) {
-            int nj = j;
-            if (s == "AND") nj &= k;
-            else nj |= k;
-            dp[nj] += p[j];
-        }
-    }
-    cout<<dp[1]<<endl;
-    */
-    return 0;
-}
-
+*/
 /*
 int64_t ans = 1;
 rep_2(i, n-1) {
