@@ -10,6 +10,13 @@ typedef int64_t i6;
 #define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
 #define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
 #define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
+#define rep_(i, r) for (int64_t i = r; i > 0; --i)
+#define rep_2(i, r) for (int64_t i = r; i >= 0; --i)
+#define rep_b(i, r, l) for (int64_t i = r; i > l; --i)
+#define rep_b2(i, r, l) for (int64_t i = r; i >= l; --i)
+#define rep_c(i, r, l, d) for (int64_t i = r; i > l; i-=d)
+#define rep_c2(i, r, l, d) for (int64_t i = r; i >= l; i-=d)
+#define repf(i, l, c, d) for (int64_t i = l; c; i+=d)
 #define repi(a, b) for (auto&(a) : (b))
 #define ALL(v) (v).begin(), (v).end()
 #define Sort(x) sort(ALL(x))
@@ -18,7 +25,7 @@ typedef int64_t i6;
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 // #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
-#define ctoi(c) (c)-'0'
+#define ctoi(c) ((c)-'0')
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
@@ -153,6 +160,82 @@ int64_t div_num (int64_t n) {
     return ans;
 }
 /*----------------------------------------------------------------------*/
+// n進数変換
+std::vector<int64_t> change_base(int64_t a, int64_t base) {
+    std::vector<int64_t> res;
+    if( a == 0 ) {
+        res.push_back(0);
+        return res;
+    }
+    while(a){
+        int64_t rest = a%base;
+        res.push_back(rest);
+        a /= base;
+    }
+    reverse(ALL(res));
+    return res;
+}
+
+// stringとchange_base()した数を比較
+bool Compare_string_number ( string s, vector<int64_t> v ) {
+    if ( v.size() > s.size() ) return true;
+    if ( v.size() < s.size() ) return false;
+
+    rep(i, s.size()) {
+        int64_t a = ctoi(s[i]), b = v[i];//atoi(v[i].c_str());
+        if ( a > b ) {
+            return false;
+        } else if ( a < b ) {
+            return true;
+        }
+    }
+    return true;
+}
+/*----------------------------------------------------------------------*/
+// A*B*C = nとなるnから、A,B,Cの組み合わせ
+int64_t ABC_n (int64_t n) {
+    int64_t ans = 0;
+    rep2(a, n) {
+        for (int64_t b = 1; a*b <= n; ++b) {
+            ans += n/a/b;
+        }
+    }
+    return ans;
+}
+/*----------------------------------------------------------------------*/
+// 整数nのd桁以下の切り捨て
+// truncate(123456789, 3) == 123456000
+// truncate(123456789, 5) == 123400000
+int64_t truncate (int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) n/=ten;n*=ten;
+    return n;
+}
+
+// 整数nのd桁以下の四捨五入
+// rounding(123456789, 5) == 123500000
+// rounding(123456789, 6) == 123000000
+int64_t rounding(int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) {
+        n += 5*pow(10, d-1);
+        n/=ten;n*=ten;
+    }
+    return n;
+}
+
+// 整数nのd桁以下の切り上げ
+// round_up(123456789, 2) == 123456800
+// round_up(123456789, 5) == 123500000
+int64_t round_up(int64_t n, int64_t d) {
+    int64_t ten = pow(10, d);
+    if ( n%ten ) {
+        n += pow(10, d);
+        n/=ten;n*=ten;
+    }
+    return n;
+}
+/*----------------------------------------------------------------------*/
 // エラトステネスのふるい
 std::vector<int64_t> Eratosthenes( int64_t n ) {
     std::vector<int64_t> is_prime(n+1, 1);
@@ -191,7 +274,7 @@ int64_t nCr(int64_t n , int64_t r) {
     }
 }
 /*----------------------------------------------------------------------*/
-
+// MOD
 const int64_t MOD = 1e9+7;
 
 int64_t Mod(int64_t a, int64_t mod) {
@@ -415,68 +498,68 @@ struct UnionFind {
 /*----------------------------------------------------------------------*/
 // ダイクストラ
 class DIJKSTRA {
-   public:
-    int V;
+    public:
+        int64_t V;
 
-    struct dk_edge {
-        int64_t to;
-        int64_t cost;
-    };
+        struct dk_edge {
+            int64_t to;
+            int64_t cost;
+        };
 
-    typedef pair<int64_t, int64_t> PI;  // firstは最短距離、secondは頂点の番号
-    vector<vector<dk_edge>> G;
-    vector<int64_t> d;      //これ答え。d[i]:=V[i]までの最短距離
-    vector<int64_t> prev;  //経路復元
+        typedef pair<int64_t, int64_t> PI;  // firstは最短距離、secondは頂点の番号
+        vector<vector<dk_edge>> G;
+        vector<int64_t> d;      //これ答え。d[i]:=V[i]までの最短距離
+        vector<int64_t> prev;  //経路復元
 
-    DIJKSTRA(int64_t size) {
-        V = size;
-        G = vector<vector<dk_edge>>(V);
-        prev = vector<int64_t>(V, -1);
-    }
+        DIJKSTRA(int64_t size) {
+            V = size;
+            G = vector<vector<dk_edge>>(V);
+            prev = vector<int64_t>(V, -1);
+        }
 
-    void add(int64_t from, int64_t to, int64_t cost) {
-        dk_edge e = {to, cost};
-        G[from].push_back(e);
-    }
+        void add(int64_t from, int64_t to, int64_t cost) {
+            dk_edge e = {to, cost};
+            G[from].push_back(e);
+        }
 
-    void dijkstra(int64_t s) {
-        // greater<P>を指定することでfirstが小さい順に取り出せるようにする
-        priority_queue<PI, vector<PI>, greater<PI>> que;
-        d = vector<int64_t>(V, INF);
-        d[s] = 0;
-        que.push(PI(0, s));
+        void dijkstra(int64_t s) {
+            // greater<P>を指定することでfirstが小さい順に取り出せるようにする
+            priority_queue<PI, vector<PI>, greater<PI>> que;
+            d = vector<int64_t>(V, INF);
+            d[s] = 0;
+            que.push(PI(0, s));
 
-        while (!que.empty()) {
-            PI p = que.top();
-            que.pop();
-            int64_t v = p.second;
-            if (d[v] < p.first) continue;
-            for (int64_t i = 0; i < G[v].size(); i++) {
-                dk_edge e = G[v][i];
-                if (d[e.to] > d[v] + e.cost) {
-                    d[e.to] = d[v] + e.cost;
-                    prev[e.to] = v;
-                    que.push(PI(d[e.to], e.to));
+            while (!que.empty()) {
+                PI p = que.top();
+                que.pop();
+                int64_t v = p.second;
+                if (d[v] < p.first) continue;
+                rep(i, G[v].size()) {
+                    dk_edge e = G[v][i];
+                    if (d[e.to] > d[v] + e.cost) {
+                        d[e.to] = d[v] + e.cost;
+                        prev[e.to] = v;
+                        que.push(PI(d[e.to], e.to));
+                    }
                 }
             }
         }
-    }
-    vector<int64_t> get_path(int64_t t) {
-        vector<int64_t> path;
-        for (; t != -1; t = prev[t]) {
-            // tがsになるまでprev[t]をたどっていく
-            path.push_back(t);
+
+        vector<int64_t> get_path(int64_t t) {
+            vector<int64_t> path;
+            for (; t != -1; t = prev[t]) {
+                // tがsになるまでprev[t]をたどっていく
+                path.push_back(t);
+            }
+            //このままだとt->sの順になっているので逆順にする
+            reverse(path.begin(), path.end());
+            return path;
         }
-        //このままだとt->sの順になっているので逆順にする
-        reverse(path.begin(), path.end());
-        return path;
-    }
-    void show(void) {
-        for (int64_t i = 0; i < d.size() - 1; i++) {
-            cout << d[i] << " ";
+
+        void show(void) {
+            for (int i = 0; i < d.size(); i++) cout << d[i] << " ";
+            cout << endl;
         }
-        cout << d[d.size() - 1] << endl;
-    }
 };
 
 /*----------------------------------------------------------------------*/
@@ -507,6 +590,17 @@ int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
 
     }
     return 0;
+}
+/*----------------------------------------------------------------------*/
+// 二分探索
+int64_t Binary_search () {
+    int64_t ok = 0, ng = INF;
+    while ( ok+1 < ng ) {
+        int64_t num = (ok+ng)/2;
+        if ( /*条件*/1 ) ok = num;
+        else ng = num;
+    }
+    return ok;
 }
 /*----------------------------------------------------------------------*/
 

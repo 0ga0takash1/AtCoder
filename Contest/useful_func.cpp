@@ -498,68 +498,68 @@ struct UnionFind {
 /*----------------------------------------------------------------------*/
 // ダイクストラ
 class DIJKSTRA {
-   public:
-    int V;
+    public:
+        int64_t V;
 
-    struct dk_edge {
-        int64_t to;
-        int64_t cost;
-    };
+        struct dk_edge {
+            int64_t to;
+            int64_t cost;
+        };
 
-    typedef pair<int64_t, int64_t> PI;  // firstは最短距離、secondは頂点の番号
-    vector<vector<dk_edge>> G;
-    vector<int64_t> d;      //これ答え。d[i]:=V[i]までの最短距離
-    vector<int64_t> prev;  //経路復元
+        typedef pair<int64_t, int64_t> PI;  // firstは最短距離、secondは頂点の番号
+        vector<vector<dk_edge>> G;
+        vector<int64_t> d;      //これ答え。d[i]:=V[i]までの最短距離
+        vector<int64_t> prev;  //経路復元
 
-    DIJKSTRA(int64_t size) {
-        V = size;
-        G = vector<vector<dk_edge>>(V);
-        prev = vector<int64_t>(V, -1);
-    }
+        DIJKSTRA(int64_t size) {
+            V = size;
+            G = vector<vector<dk_edge>>(V);
+            prev = vector<int64_t>(V, -1);
+        }
 
-    void add(int64_t from, int64_t to, int64_t cost) {
-        dk_edge e = {to, cost};
-        G[from].push_back(e);
-    }
+        void add(int64_t from, int64_t to, int64_t cost) {
+            dk_edge e = {to, cost};
+            G[from].push_back(e);
+        }
 
-    void dijkstra(int64_t s) {
-        // greater<P>を指定することでfirstが小さい順に取り出せるようにする
-        priority_queue<PI, vector<PI>, greater<PI>> que;
-        d = vector<int64_t>(V, INF);
-        d[s] = 0;
-        que.push(PI(0, s));
+        void dijkstra(int64_t s) {
+            // greater<P>を指定することでfirstが小さい順に取り出せるようにする
+            priority_queue<PI, vector<PI>, greater<PI>> que;
+            d = vector<int64_t>(V, INF);
+            d[s] = 0;
+            que.push(PI(0, s));
 
-        while (!que.empty()) {
-            PI p = que.top();
-            que.pop();
-            int64_t v = p.second;
-            if (d[v] < p.first) continue;
-            for (int64_t i = 0; i < G[v].size(); i++) {
-                dk_edge e = G[v][i];
-                if (d[e.to] > d[v] + e.cost) {
-                    d[e.to] = d[v] + e.cost;
-                    prev[e.to] = v;
-                    que.push(PI(d[e.to], e.to));
+            while (!que.empty()) {
+                PI p = que.top();
+                que.pop();
+                int64_t v = p.second;
+                if (d[v] < p.first) continue;
+                rep(i, G[v].size()) {
+                    dk_edge e = G[v][i];
+                    if (d[e.to] > d[v] + e.cost) {
+                        d[e.to] = d[v] + e.cost;
+                        prev[e.to] = v;
+                        que.push(PI(d[e.to], e.to));
+                    }
                 }
             }
         }
-    }
-    vector<int64_t> get_path(int64_t t) {
-        vector<int64_t> path;
-        for (; t != -1; t = prev[t]) {
-            // tがsになるまでprev[t]をたどっていく
-            path.push_back(t);
+
+        vector<int64_t> get_path(int64_t t) {
+            vector<int64_t> path;
+            for (; t != -1; t = prev[t]) {
+                // tがsになるまでprev[t]をたどっていく
+                path.push_back(t);
+            }
+            //このままだとt->sの順になっているので逆順にする
+            reverse(path.begin(), path.end());
+            return path;
         }
-        //このままだとt->sの順になっているので逆順にする
-        reverse(path.begin(), path.end());
-        return path;
-    }
-    void show(void) {
-        for (int64_t i = 0; i < d.size() - 1; i++) {
-            cout << d[i] << " ";
+
+        void show(void) {
+            for (int i = 0; i < d.size(); i++) cout << d[i] << " ";
+            cout << endl;
         }
-        cout << d[d.size() - 1] << endl;
-    }
 };
 
 /*----------------------------------------------------------------------*/
@@ -602,6 +602,7 @@ int64_t Binary_search () {
     }
     return ok;
 }
+/*----------------------------------------------------------------------*/
 
 int main() {
     return 0;
