@@ -56,11 +56,14 @@ int main() {
     }
     cout << ans << endl;
     */
+    
     int64_t ans = 0;
+    // aを選ぶだけ選ぶ
     while ( (double)a*x<=2e18 && x*a <= x+b && x*a < y ) {
         x *= a;
         ++ans;
     }
+    // 残りのbを選べるだけ選ぶ
     ans += (y-1-x)/b;
     cout << ans << endl;
     return 0;

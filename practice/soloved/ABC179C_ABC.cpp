@@ -1,3 +1,9 @@
+/*---------------------------------------------*/
+/*
+    ABC179 C
+ */
+/*---------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,45 +29,49 @@ template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), nu
 const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
+/*
+int64_t enum_div2 (int64_t n) {
+    int64_t ans = 0;
+    rep2(i, n-1) {
+        for(int j = 1; j*j <= i; ++j){
+            if(i%j == 0){
+                ++ans;
+                if ( j*j != i ) {
+                    ++ans;
+                }
+            }
+        }
+    }
+    return ans;
+}
+*/
+int64_t func (int64_t n) {
+    vector<int64_t> x(n+1);
+	int64_t num = n; // 素因数分解する変数num
+    int64_t ans = 1;
+
+    repb2(i, 2, n) {
+		while (num%i == 0) { // 素数で割り切れなくなるまで割っていく
+			x.at(i)++; //割った個数を配列に足す
+			num /= i;
+		}
+	}
+
+    repb2(i, 2, n) {
+		ans *= x.at(i) + 1; //それぞれを+1して掛けていく
+	}
+    return ans;
+}
 
 int main() {
-    int64_t x, y, a, b;
-    cin >> x >> y >> a >> b;
+    int64_t n;
+    cin >> n;
 
-    /*
-    std::vector<int64_t> v(y, -1);
-    v[x] = 0;
-    repb(i, x, y) {
-        if ( v[i] == -1 ) continue;
-        if ( i*a < y ) chmax(v[i*a], v[i]+1);
-        if ( i+b < y ) chmax(v[i+b], v[i]+1);
-    }
-    cout << *max_element(ALL(v)) << endl;
-    */
-    /*
+    // cout << enum_div2(n) << endl;
     int64_t ans = 0;
-    queue<pair<int64_t, int64_t> > q;
-    q.push({x, 0});
-    while ( !q.empty() ) {
-        int64_t st = q.front().first, ex = q.front().second;
-        q.pop();
-        if ( st*a < y ) {
-            chmax(ans, ex+1);
-            q.push({st*a, ex+1});
-        }
-        if ( st+b < y ) {
-            chmax(ans, ex+1);
-            q.push({st+b, ex+1});
-        }
+    rep2(i, n-1) {
+        ans += func(i);
     }
-    cout << ans << endl;
-    */
-    int64_t ans = 0;
-    while ( (double)a*x<=2e18 && x*a <= x+b && x*a < y ) {
-        x *= a;
-        ++ans;
-    }
-    ans += (y-1-x)/b;
     cout << ans << endl;
     return 0;
 }
