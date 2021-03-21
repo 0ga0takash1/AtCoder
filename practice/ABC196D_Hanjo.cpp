@@ -35,13 +35,7 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    int64_t n;
-    cin >> n;
-    rep(i, 1e7) {
-        if ( stoll(to_string(i)+to_string(i)) > n ) {
-            cout << i-1 << endl;
-            return 0;
-        }
-    }
+    int64_t h, w, a, b;
+    cin >> h >> w >> a >> b;
     return 0;
 }
