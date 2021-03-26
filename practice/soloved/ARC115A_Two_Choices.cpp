@@ -34,31 +34,42 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
-    int64_t k2 = 1 << k;
-    rep(s, k2) {
-        std::vector<int64_t> dish(n+1, 0);
-        rep(i, k) {
-            if ( s>>i & 1 ) {
-                ++dish[d[i]];
-            } else {
-                ++dish[c[i]];
-            }
-        }
-
-        // 以下
-
-    }
-    return 0;
-}
-
 int main() {
     int64_t n, m;
     cin >> n >> m;
     std::vector<string> a(n);
-    vector<pair<int64_t, int64_t> > p(n, {0, 0});
+    int64_t even1 = 0, odd1 = 0;
     rep(i, n) {
         cin >> a[i];
+        Sort_rev(a[i]);
+        int64_t num1 = 0;
+        if ( a[i][m-1] == '1' ) {
+            num1 = m;
+        } else {
+            rep(j, m) {
+                if (a[i][j] == '0') {
+                    num1 = j;
+                    break;
+                }
+            }
+        }
+        if ( num1%2 == 0 ) ++even1;
+        else ++odd1;
+    }
+    cout << even1*odd1 << endl;
+    return 0;
+}
+
+/*
+int main() {
+    int64_t n, m;
+    cin >> n >> m;
+    std::vector<string> a(n);
+    // vector<pair<int64_t, int64_t> > p(n, {0, 0});
+    int64_t even1 = 0, odd1 = 0;
+    rep(i, n) {
+        cin >> a[i];
+        int64_t num1 = 0;
         rep(j, m) {
             if (a[i][j] == '1') ++p[i].first;
             else ++p[i].second;
@@ -66,7 +77,6 @@ int main() {
     }
 
     int64_t ans = 0;
-    /*
     int64_t k2 = 1 << m;
     rep(s, k2) {
         std::vector<char> dish(m, '0');
@@ -93,7 +103,7 @@ int main() {
             if (!judge) break;
         }
         if (judge) ++ans;
-    }*/
+    }
     rep(i, n-1) {
         repb(j, i+1, n) {
             if ( p[i].first != p[j].first || p[i].second != p[j].second ) {
@@ -105,3 +115,4 @@ int main() {
     cout << ans << endl;
     return 0;
 }
+*/
