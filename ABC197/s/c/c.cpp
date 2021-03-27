@@ -42,13 +42,27 @@ int main() {
         cin >> a[i];
     }
     int64_t ans = INF;
+
+    rep(s, (1<<n-1)) {
+        int64_t num = a[0], xnum = 0;
+        rep(i, n) {
+            num |= a[i];
+            if ( s>>i & 1 || i == n-1 ) {
+                xnum ^= num;
+                num = 0;
+            }
+        }
+        chmin(ans, xnum);
+    }
+
+    /*
     rep(border, n-1) {
         int64_t num = a[0], num2 = a[border+1];
         rep2(i, border) num |= a[i];
-        repb(i, border+2, n) num |= a[i];
+        repb(i, border+2, n) num2 |= a[i];
         chmin(ans, num^num2);
-        if (!ans) break;
-    }
+        // if (!ans) break;
+    }*/
     cout << ans << endl;
     return 0;
 }

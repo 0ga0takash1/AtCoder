@@ -1,9 +1,22 @@
+#if !__INCLUDE_LEVEL__
+#include __FILE__
+
+int main() {
+    return 0;
+}
+
+#else  // INCLUDED_MAIN
+
 #include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
 typedef std::vector<std::vector<int64_t> > Graph;
 
+#define in1(n) int64_t n;cin >> n;
+#define in2(n, m) int64_t n, m;cin >> n >> m;
+#define in3(n, m, k) int64_t n, m, k;cin >> n >> m >> k;
+#define in4(a, b, c, d) int64_t a, b, c, d;cin >> a >> b >> c >> d;
 #define rep(i, n) for (int64_t i = 0; i < n; ++i)
 #define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
 #define repb(i, l, n) for (int64_t i = l; i < n; ++i)
@@ -34,6 +47,4 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int main() {
-    return 0;
-}
+#endif // INCLUDED_MAIN

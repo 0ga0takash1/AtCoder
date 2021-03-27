@@ -35,5 +35,11 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
+    int64_t n;
+    cin >> n;
+    int64_t x, y;
+    cin >> x >> y;
+    int64_t x2, y2;
+    cin >> x2 >> y2;
     return 0;
 }
