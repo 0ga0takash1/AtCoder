@@ -1,15 +1,15 @@
 #if !__INCLUDE_LEVEL__
 #include __FILE__
 
-// π M_PI
+// π acos(-1)
 // deg = rad*180/M_PI
 
 double deg_to_rad( double deg ) {
-    return (deg*M_PI)/180;
+    return (deg*acos(-1))/180;
 }
 
 double rad_to_deg( double rad ) {
-    return (rad*180)/M_PI;
+    return (rad*180)/acos(-1);
 }
 
 const int inf = 0x3fffffff;
@@ -172,6 +172,16 @@ int64_t ABC_n (int64_t n) {
         }
     }
     return ans;
+}
+/*----------------------------------------------------------------------*/
+// 点(x, y)を点(ox, oy)を中心に半時計回りにtheta回転した座標を返す
+// first = x, second = y
+pair<long double, long double> rotate ( long double x, long double y,
+                                        long double ox, long double oy,
+                                        long double theta) {
+    x -= ox;
+    y -= oy;
+    return {x*cos(theta)-y*sin(theta)+ox, y*cos(theta)+x*sin(theta)+oy};
 }
 /*----------------------------------------------------------------------*/
 // 整数nのd桁以下の切り捨て

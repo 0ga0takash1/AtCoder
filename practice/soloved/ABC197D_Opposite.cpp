@@ -34,6 +34,37 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
+pair<long double, long double> rotate ( long double x, long double y,
+                                long double ox, long double oy,
+                                long double theta) {
+    x -= ox;
+    y -= oy;
+    return {x*cos(theta)-y*sin(theta)+ox, y*cos(theta)+x*sin(theta)+oy};
+}
+
 int main() {
+    long double n;
+    cin >> n;
+    long double x, y;
+    cin >> x >> y;
+    long double x2, y2;
+    cin >> x2 >> y2;
+
+    // long double r = (x-x2)*(x-x2)+(y-y2)*(y-y2);
+    // r = sqrt(r)/2;
+    /*
+    long double xx, yy, ox, oy, theta = 2*acos(-1)/n;
+    ox = (x+x2)/2.0;
+    oy = (y+y2)/2.0;
+    x -= ox;
+    y -= oy;
+    xx = x*cos(theta)-y*sin(theta)+ox;
+    yy = y*cos(theta)+x*sin(theta)+oy;
+    cout << setprecision(15) << xx << " ";
+    cout << setprecision(15) << yy << endl;
+    */
+    pair<long double, long double> ans
+        = rotate(x, y, (x+x2)/2.0, (y+y2)/2.0, 2*acos(-1)/n);
+    cout << setprecision(15) << ans.first << " " << ans.second << endl;
     return 0;
 }

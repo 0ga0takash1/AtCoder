@@ -1,12 +1,3 @@
-#if !__INCLUDE_LEVEL__
-#include __FILE__
-
-int main() {
-    return 0;
-}
-
-#else  // INCLUDED_MAIN
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -47,4 +38,6 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-#endif // INCLUDED_MAIN
+int main() {
+    return 0;
+}
