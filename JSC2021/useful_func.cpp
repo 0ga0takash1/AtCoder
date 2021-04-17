@@ -43,16 +43,6 @@ int64_t ngcd(vector<int64_t> a){
     }
     return res;
 }
-
-// a以上b以下の組(n, m)でGCD(n, m)の最大値c
-int64_t arc_GCD(int64_t left, int64_t right) {
-    rep_(res, right) {
-        if ( (left+res-1)/res < right/res ) {
-            return res;
-        }
-    }
-    return 1;
-}
 /*----------------------------------------------------------------------*/
 // 最小公倍数
 int64_t lcm(int64_t a, int64_t b) {
