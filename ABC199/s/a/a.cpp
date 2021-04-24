@@ -29,47 +29,19 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 #define ctoi(c) ((c)-'0')
+
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
 template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
+
 const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    in1(n);
-    string s;
-    cin >> s;
-    in1(q);
-    std::vector<int64_t> t(q), a(q), b(q);
-    rep(i, q) {
-        cin >> t[i] >> a[i] >> b[i];
-    }
-
-    int64_t i = 0;
-    while (i<q) {
-        if ( t[i] == 1 ) {
-            swap(s[a[i]-1], s[b[i]-1]);
-
-            ++i;
-        } else if ( t[i] == 2 ) {
-            int64_t num2 = 1;
-            repb(j, i+1, q) {
-                if ( t[j] == 1 ) {
-                    break;
-                } else {
-                    num2++;
-                }
-            }
-            if ( num2%2 ) {
-                string temp = s.substr(n);
-                s.erase(n);
-                s = temp+s;
-            }
-            if ( num2 != 0 ) i += num2;
-            else ++i;
-        }
-    }
-    cout << s << endl;
+    in3(n, m, k);
+    int64_t ans = 0;
+    if ( n*n+m*m < k*k ) ans = 1;
+    cout << ( ans ? "Yes" : "No" ) << endl;
     return 0;
 }

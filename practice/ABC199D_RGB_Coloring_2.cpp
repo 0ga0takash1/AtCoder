@@ -36,40 +36,56 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int main() {
-    in1(n);
-    string s;
-    cin >> s;
-    in1(q);
-    std::vector<int64_t> t(q), a(q), b(q);
-    rep(i, q) {
-        cin >> t[i] >> a[i] >> b[i];
-    }
-
-    int64_t i = 0;
-    while (i<q) {
-        if ( t[i] == 1 ) {
-            swap(s[a[i]-1], s[b[i]-1]);
-
-            ++i;
-        } else if ( t[i] == 2 ) {
-            int64_t num2 = 1;
-            repb(j, i+1, q) {
-                if ( t[j] == 1 ) {
-                    break;
-                } else {
-                    num2++;
-                }
+void bfs ( Graph G ) {
+    std::vector<int64_t> seen(G.size(), 0);
+    queue<int64_t> q;
+    int64_t start_num = 0;
+    q.push(start_num);
+    while ( !q.empty() ) {
+        int64_t num = q.front();
+        seen[num] = 1;
+        q.pop();
+        rep(i, G[num].size()) {
+            int64_t see = G[num].at(i);
+            if ( seen[see] == 0 ) {
+                q.push(see);
+                seen[see] = 1;
             }
-            if ( num2%2 ) {
-                string temp = s.substr(n);
-                s.erase(n);
-                s = temp+s;
-            }
-            if ( num2 != 0 ) i += num2;
-            else ++i;
         }
     }
-    cout << s << endl;
+}
+
+int main() {
+    in2(n, m);
+
+    Graph g(n);
+    std::vector<int64_t> a(m), b(m);
+    rep(i, m) {
+        cin >> a[i] >> b[i];
+        --a[i];
+        --b[i];
+        g[a[i]].push_back(b[i]);
+        g[b[i]].push_back(a[i]);
+    }
+
+    int64_t ans = 0;
+    if ( n == 1 ) {
+        ans = 3;
+    } else if ( n == 2 ) {
+        ans = 6;
+    } else {
+        if (!m) {
+            ans = pow(3, n);
+        } else {
+            ans = 1;
+            repb2(i, 2, 3) {
+                rep(j, n) {
+                    if ( !g[j].size() ) ans *= i;
+                }
+                
+            }
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
