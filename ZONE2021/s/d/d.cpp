@@ -49,12 +49,12 @@ int main() {
         if ( s[i] == 'R' ) {
             back = !back;
         } else {
-            if ( !ans.length() ) {
+            if ( !ans.size() ) {
                 ans = s[i];
             } else {
-                if (!back) {
-                    if ( ans[s.length()-1] != s[i] ) ans += s[i];
-                    else ans.erase(s.length()-1);
+                if ( !back ) {
+                    if ( ans[s.size()-1] != s[i] ) ans += s[i];
+                    else ans.erase(s.size()-1);
                 } else {
                     if ( ans[0] != s[i] ) ans = s[i]+ans;
                     else ans.erase(0, 1);
@@ -82,7 +82,15 @@ int main() {
     }
     */
 
-    if (back) reverse(ALL(ans));
-    cout << ans << endl;
+    // if (back) reverse(ALL(ans));
+    // cout << ans << endl;
+    if (!back) {
+        cout << ans << endl;
+    } else {
+        rep_2(i, ans.size()-1) {
+            cout << ans[i];
+        }
+        cout << endl;
+    }
     return 0;
 }
