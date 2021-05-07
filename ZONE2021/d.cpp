@@ -39,10 +39,7 @@ const int64_t MOD = 1e9+7;
 int main() {
     string s;
     cin >> s;
-    if ( s.find('R') == 0 ) {
-        cout << s << endl;
-        return 0;
-    }
+
     string ans;
     int64_t back = 0;
     rep(i, s.size()) {
@@ -53,8 +50,8 @@ int main() {
                 ans = s[i];
             } else {
                 if ( !back ) {
-                    if ( ans[s.size()-1] != s[i] ) ans += s[i];
-                    else ans.erase(s.size()-1);
+                    if ( ans[ans.size()-1] != s[i] ) ans += s[i];
+                    else ans.erase(ans.size()-1);
                 } else {
                     if ( ans[0] != s[i] ) ans = s[i]+ans;
                     else ans.erase(0, 1);
