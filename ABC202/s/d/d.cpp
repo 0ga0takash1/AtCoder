@@ -68,7 +68,7 @@ int main() {
             }
         }
         // cout << last_num << " " << i << " " << to_not_mul << endl;
-        /*
+/*
         if ( to_not_mul == 1 ) {
             last_num *= i;
         } else {
@@ -99,7 +99,31 @@ int main() {
         cout << endl;
         return 0;
     }
-    int64_t div_num = k/b, div_rem_num = k%b;
-    div_num /= a;
+
+    int64_t div_num = (a+b+1)/(k-1), div_rem_num = k%b;
+    div_num++;
+    div_rem_num++;
+    string ans, ans2;
+    rep2(i, a) {
+        if ( div_num>>i & 1 ) {
+            // cout << 'b';
+            ans += 'b';
+        } else {
+            ans += 'a';
+            // cout << 'a';
+        }
+    }
+    // reverse(ALL(ans));
+
+    rep2(i, b) {
+        if ( div_num>>i & 1 ) {
+            ans2 += 'b';
+        } else {
+            ans2 += 'a';
+        }
+    }
+    reverse(ALL(ans2));
+    // cout << endl;
+    cout << ans << ans2 << endl;
     return 0;
 }
