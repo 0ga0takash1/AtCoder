@@ -51,15 +51,12 @@ int main() {
     int64_t last_num = 1, to_not_mul = min(a, b), d = to_not_mul;
     rep_b2(i, a+b, max(a, b)) {
         if ( to_not_mul == 1 ) {
-            // cout << "a" << endl;
             last_num *= i;
         } else {
             if ( i%to_not_mul == 0 ) {
-                // cout << "b" << endl;
                 last_num *= i/to_not_mul;
                 --to_not_mul;
             } else {
-                // cout << "c" << endl;
                 last_num *= i;
             }
             while ( last_num%to_not_mul == 0 && to_not_mul != 1 ) {
@@ -67,30 +64,6 @@ int main() {
                 --to_not_mul;
             }
         }
-        // cout << last_num << " " << i << " " << to_not_mul << endl;
-/*
-        if ( to_not_mul == 1 ) {
-            last_num *= i;
-        } else {
-            if ( i%to_not_mul == 0 ) {
-                last_num *= i/to_not_mul;
-                --to_not_mul;
-            } else {
-                if ( gcd(i, to_not_mul) != 1 ) {
-                    last_num *= i/gcd(i, to_not_mul);
-                } else {
-
-                }
-                d *= to_not_mul/gcd(i, to_not_mul);
-                --to_not_mul;
-                last_num *= i;
-            }
-            while ( last_num%to_not_mul == 0 && to_not_mul != 1 ) {
-                last_num /= to_not_mul;
-                --to_not_mul;
-            }
-        }
-        */
     }
 
     if ( k == last_num ) {
@@ -100,30 +73,27 @@ int main() {
         return 0;
     }
 
-    int64_t div_num = (a+b+1)/(k-1), div_rem_num = k%b;
-    div_num++;
+    int64_t div_num = (k+b-1)/b, div_rem_num = (k+b-1)%b;
+    // div_num++;
     div_rem_num++;
     string ans, ans2;
     rep2(i, a) {
         if ( div_num>>i & 1 ) {
-            // cout << 'b';
             ans += 'b';
         } else {
             ans += 'a';
-            // cout << 'a';
         }
     }
     // reverse(ALL(ans));
 
     rep2(i, b) {
-        if ( div_num>>i & 1 ) {
+        if ( div_rem_num>>i & 1 ) {
             ans2 += 'b';
         } else {
             ans2 += 'a';
         }
     }
     reverse(ALL(ans2));
-    // cout << endl;
     cout << ans << ans2 << endl;
     return 0;
 }

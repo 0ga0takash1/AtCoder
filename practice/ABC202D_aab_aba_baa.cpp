@@ -73,9 +73,9 @@ int main() {
         return 0;
     }
 
-    int64_t div_num = (a+b+1)/(k-1), div_rem_num = k%b;
+    int64_t div_num = (k+b-1)/b, div_rem_num = (k+b-1)%b;
     // div_num++;
-    // div_rem_num++;
+    div_rem_num++;
     string ans, ans2;
     rep2(i, a) {
         if ( div_num>>i & 1 ) {
@@ -87,14 +87,13 @@ int main() {
     // reverse(ALL(ans));
 
     rep2(i, b) {
-        if ( div_num>>i & 1 ) {
+        if ( div_rem_num>>i & 1 ) {
             ans2 += 'b';
         } else {
             ans2 += 'a';
         }
     }
     reverse(ALL(ans2));
-    // cout << endl;
     cout << ans << ans2 << endl;
     return 0;
 }

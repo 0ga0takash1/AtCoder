@@ -194,6 +194,29 @@ pair<long double, long double> rotate ( long double x, long double y,
     return {x*cos(theta)-y*sin(theta)+ox, y*cos(theta)+x*sin(theta)+oy};
 }
 /*----------------------------------------------------------------------*/
+// aコの0とbコの1の並び替えの総数
+// (a+b)!/a!b!
+int64_t ab_a_b (int64_t a, int64_t b) {
+    int64_t res = 1, to_not_mul = min(a, b);
+    rep_b2(i, a+b, max(a, b)) {
+        if ( to_not_mul == 1 ) {
+            res *= i;
+        } else {
+            if ( !(i%to_not_mul) ) {
+                res *= i/to_not_mul;
+                --to_not_mul;
+            } else {
+                res *= i;
+            }
+            while ( !(res%to_not_mul) && to_not_mul != 1 ) {
+                res /= to_not_mul;
+                --to_not_mul;
+            }
+        }
+    }
+    return res;
+}
+/*----------------------------------------------------------------------*/
 // 整数nのd桁以下の切り捨て
 // truncate(123456789, 3) == 123456000
 // truncate(123456789, 5) == 123400000
