@@ -37,59 +37,5 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    in3(a, b, k);
-    if ( k == 1 ) {
-        rep(i, a) cout << 'a';
-        rep(i, b) cout << 'b';
-        cout << endl;
-        return 0;
-    }
-    int64_t last_num = 1, to_not_mul = min(a, b), d = to_not_mul;
-    rep_b2(i, a+b, max(a, b)) {
-        if ( to_not_mul == 1 ) {
-            last_num *= i;
-        } else {
-            if ( i%to_not_mul == 0 ) {
-                last_num *= i/to_not_mul;
-                --to_not_mul;
-            } else {
-                last_num *= i;
-            }
-            while ( last_num%to_not_mul == 0 && to_not_mul != 1 ) {
-                last_num /= to_not_mul;
-                --to_not_mul;
-            }
-        }
-    }
-
-    if ( k == last_num ) {
-        rep(i, b) cout << 'b';
-        rep(i, a) cout << 'a';
-        cout << endl;
-        return 0;
-    }
-
-    int64_t div_num = (k+b-1)/b, div_rem_num = (k+b-1)%b;
-    // div_num++;
-    div_rem_num++;
-    string ans, ans2;
-    rep2(i, a) {
-        if ( div_num>>i & 1 ) {
-            ans += 'b';
-        } else {
-            ans += 'a';
-        }
-    }
-    // reverse(ALL(ans));
-
-    rep2(i, b) {
-        if ( div_rem_num>>i & 1 ) {
-            ans2 += 'b';
-        } else {
-            ans2 += 'a';
-        }
-    }
-    reverse(ALL(ans2));
-    cout << ans << ans2 << endl;
     return 0;
 }
