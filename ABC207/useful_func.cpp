@@ -249,12 +249,6 @@ int64_t round_up(int64_t n, int64_t d) {
     }
     return n;
 }
-
-// ガウス記号
-// floor_func(5, 2) == [2.5] == 2
-int64_t floor_func(int64_t a, int64_t b) {
-    return ((a-1)/b)+1;
-}
 /*----------------------------------------------------------------------*/
 // エラトステネスのふるい
 std::vector<int64_t> Eratosthenes( int64_t n ) {
