@@ -26,20 +26,46 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
 #define Sort_pair(x, p) sort(ALL(x), (p))
-#define vector2(a, n, k) std::vector<std::vector<int64_t>> a(n, std::vector<int64_t>(k))
 #define mp(a, b) make_pair((a), (b))
 #define Push_back(a, b) push_back( mp( (a), (b) ) )
 #define ctoi(c) ((c)-'0')
-
-template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0; }
-template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0; }
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
 template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
-template<typename map,typename T> bool find_map(map m, T num) { auto itr = m.find(num); if ( itr == m.end() ) { return false; } return true; }
-
 const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
+    in2(n, k);
+    std::vector<int64_t> a(n);
+    std::map<int64_t, int64_t> map;
+    rep(i, a.size()) {
+        cin >> a[i];
+        if ( i < k ) {
+            auto itr = map.find(a[i]);
+            if ( itr != map.end() ) {
+                ++map[a[i]];
+            } else {
+                map.insert({a[i], 1});
+            }
+        }
+    }
+    int64_t ans = map.size();
+    repb(i, k, n) {
+        --map[a[i-k]];
+        if (map[a[i-k]] <= 0) map.erase(a[i-k]);
+        
+        auto itr = map.find(a[i]);
+        if ( itr != map.end() ) {
+            ++map[a[i]];
+        } else {
+            map.insert({a[i], 1});
+        }
+        int64_t size = map.size();
+        chmax(ans, size);
+        if ( ans == k ) break;
+    }
+    cout << ans << endl;
     return 0;
 }
