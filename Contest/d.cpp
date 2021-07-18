@@ -27,8 +27,6 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
 #define Sort_pair(x, p) sort(ALL(x), (p))
 #define vector2(a, n, k) std::vector<std::vector<int64_t>> a(n, std::vector<int64_t>(k))
-#define mp(a, b) make_pair((a), (b))
-#define Push_back(a, b) push_back( mp( (a), (b) ) )
 #define ctoi(c) ((c)-'0')
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0; }
