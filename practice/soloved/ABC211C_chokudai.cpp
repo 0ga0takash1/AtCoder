@@ -41,6 +41,19 @@ const int64_t MOD = 1e9+7;
 int main() {
     string s;
     cin >> s;
-    
+    vector2(dp, s.length()+1, 9);
+    rep(i, s.length()+1) dp[i][0] = 1;
+    string chokudai = "chokudai";
+    rep(i, s.length()) {
+        rep(j, 8) {
+            if ( s[i] != chokudai[j] ) {
+                dp[i+1][j+1] = dp[i][j+1];
+            } else {
+                dp[i+1][j+1] = dp[i][j+1]+dp[i][j];
+                dp[i+1][j+1] %= MOD;
+            }
+        }
+    }
+    cout << dp[s.length()][8] << endl;
     return 0;
 }
