@@ -44,5 +44,21 @@ int main() {
             cin >> a[i][j];
         }
     }
+
+    int64_t ans = INF;
+    rep(_, 2) {
+        std::vector<std::vector<int64_t>> dp(h, std::vector<int64_t>(w, INF));
+        rep(i, h) {
+            rep(j, w) {
+                if (i) chmin(dp[i][j], dp[i-1][j]);
+                if (j) chmin(dp[i][j], dp[i][j-1]);
+
+                chmin(ans, a[i][j]+(i+j)*c+dp[i][j]);
+                chmin(dp[i][j], a[i][j]-(i+j)*c);
+            }
+        }
+        reverse(ALL(a));
+    }
+    cout << ans << endl;
     return 0;
 }
