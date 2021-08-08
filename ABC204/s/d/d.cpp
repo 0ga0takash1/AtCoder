@@ -38,10 +38,17 @@ const int64_t MOD = 1e9+7;
 
 int main() {
     in1(n);
+    bitset<100001> dp;
+    dp[0] = 1;
     std::vector<int64_t> t(n);
     rep(i, t.size()) {
         cin >> t[i];
+        dp |= dp<<t[i];
     }
+/*
+    // vector<int64_t> t(2, 10), v(5, 9);
+    // std::copy(ALL(v), std::back_inserter(t));
+    // t.push_back(1000);
     Sort_rev(t);
 
     int64_t ov = 0, ov2 = 0;
@@ -58,5 +65,11 @@ int main() {
     }
 
     cout << max(ov, ov2) << endl;
+    */
+    int64_t ans = accumulate(ALL(t), 0LL), sum = ans;
+    rep(i, sum) {
+        if (dp[i]) chmin(ans, max(i, sum-i));
+    }
+    cout << ans << endl;
     return 0;
 }
