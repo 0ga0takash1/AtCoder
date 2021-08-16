@@ -38,88 +38,47 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-class DIJKSTRA {
-    public:
-        int64_t S;
+struct UnionFind {
+    vector<int64_t> r;
 
-        struct dk_edge {
-            int64_t to;
-            int64_t cost;
-        };
+    UnionFind(int64_t N) {
+        r = vector<int64_t>(N, -1);
+    }
 
-        typedef pair<int64_t, int64_t> PI;  // firstは最短距離、secondは頂点の番号
-        vector<vector<dk_edge>> G;
-        vector<int64_t> d;      //これ答え。d[i]:=S[i]までの最短距離
-        vector<int64_t> prev;  //経路復元
+    int64_t root(int64_t x) {
+        if (r[x] < 0) return x;
+        return r[x] = root(r[x]);
+    }
 
-        DIJKSTRA(int64_t size) {
-            S = size;
-            G = vector<vector<dk_edge>>(S);
-            prev = vector<int64_t>(S, -1);
-        }
+    bool unite(int64_t x, int64_t y) {
+        x = root(x);
+        y = root(y);
+        if (x == y) return false;
+        if (r[x] > r[y]) swap(x, y);
+        r[x] += r[y];
+        r[y] = x;
+        return true;
+    }
 
-        void add(int64_t from, int64_t to, int64_t cost) {
-            dk_edge e = {to, cost};
-            G[from].push_back(e);
-        }
-
-        void dijkstra(int64_t s) {
-            // greater<P>を指定することでfirstが小さい順に取り出せるようにする
-            priority_queue<PI, vector<PI>, greater<PI>> que;
-            d = vector<int64_t>(S, -1);
-            d[s] = 0;
-            que.push(PI(0, s));
-
-            while (!que.empty()) {
-                PI p = que.top();
-                que.pop();
-                int64_t now = p.second;
-                if (d[now] < p.first) continue;
-                rep(i, G[now].size()) {
-                    dk_edge e = G[now][i];
-                    /*
-                    if (d[e.to] > d[now] + e.cost) {
-                        d[e.to] = d[now] + e.cost;
-                        prev[e.to] = now;
-                        que.push(PI(d[e.to], e.to));
-                    }
-                    */
-                    if ( d[e.to] == -1 ) {
-                        d[e.to] = max(d[now], e.cost);
-                        prev[e.to] = now;
-                        que.push(PI(d[e.to], e.to));
-                    }
-                    /* else {
-                        chmax(d[e.to], max(d[now], e.cost));
-                    }*/
-                }
-            }
-        }
-
-        vector<int64_t> get_path(int64_t t) {
-            vector<int64_t> path;
-            for (; t != -1; t = prev[t]) {
-                // tがsになるまでprev[t]をたどっていく
-                path.push_back(t);
-            }
-            //このままだとt->sの順になっているので逆順にする
-            reverse(path.begin(), path.end());
-            return path;
-        }
-
-        void show(void) {
-            for (int i = 0; i < d.size(); i++) cout << d[i] << " ";
-            cout << endl;
-        }
+    int64_t size(int64_t x) {
+        return -r[root(x)];
+    }
 };
+
+bool tuple_Cf(const tuple<int64_t, int64_t, int64_t>& firstElof, const tuple<int64_t, int64_t, int64_t>& secondElof) {
+    return get<0>(firstElof) < get<0>(secondElof);
+}
 
 int main() {
     in1(n);
+    /*
+    int64_t n = 10000;
     DIJKSTRA dks(n);
     std::vector<int64_t> u(n-1), v(n-1), w(n-1);
     rep(i, u.size()) {
-        cin >> u[i] >> v[i] >> w[i];
-        --u[i];--v[i];
+        // cin >> u[i] >> v[i] >> w[i];
+        // --u[i];--v[i];
+        u[i] = i;v[i] = i+1;w[i] = i+1;
         dks.add(u[i], v[i], w[i]);
         dks.add(v[i], u[i], w[i]);
     }
@@ -131,6 +90,25 @@ int main() {
             ans += dks.d[j];
             // cout << i+1 << " " << j+1 << " " << dks.d[j] << endl;
         }
+    }
+    cout << ans << endl;
+    */
+    // std::vector<int64_t> u(n-1), v(n-1), w(n-1);
+    std::vector< std::tuple<int64_t, int64_t, int64_t> > t(n-1);
+    rep(i, t.size()) {
+        int64_t u, v, w;
+        cin >> u >> v >> w;
+        --u;--v;
+        t[i] = {w, u, v};
+    }
+    Sort(t);
+
+    UnionFind uf(n);
+    int64_t ans = 0;
+    repi(e, t) {
+        auto w = get<0>(e), u = get<1>(e), v = get<2>(e);
+        ans += w*uf.size(u)*uf.size(v);
+        uf.unite(u, v);
     }
     cout << ans << endl;
     return 0;
