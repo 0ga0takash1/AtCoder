@@ -36,12 +36,32 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t gcd(int64_t a, int64_t b) {
-    return b ? gcd(b, a%b) : a;
+int64_t nCr(int64_t n , int64_t r) {
+    if ( n == r || n == 1 || r == 0 ) {
+        return 1;
+    }
+
+    r = min(r, n-r);
+    if ( r == 1 ) {
+        return n;
+    } else {
+        std::vector<std::vector<int64_t> > v(n + 1,std::vector<int64_t>(n + 1, 0));
+        for (int64_t i = 0; i < v.size(); i++) {
+            v[i][0] = 1;
+            v[i][i] = 1;
+        }
+        for (int j = 1; j < v.size(); j++) {
+            for (int64_t k = 1; k < j; k++) {
+                v[j][k] = (v[j - 1][k - 1] + v[j - 1][k]);
+            }
+        }
+        return v[n][r];
+    }
 }
 
 int main() {
     in3(a, b, k);
+/*
     if ( k == 1 ) {
         rep(i, a) cout << 'a';
         rep(i, b) cout << 'b';
@@ -95,5 +115,24 @@ int main() {
     }
     reverse(ALL(ans2));
     cout << ans << ans2 << endl;
+*/
+    int64_t n = a+b;
+    string ans = "";
+    rep(i, n) {
+        if ( 0 < a ) {
+            if ( k <= nCr(a+b-1, b) ) {
+                ans += 'a';
+                --a;
+            } else {
+                ans += 'b';
+                k -= nCr(a+b-1, b);
+                --b;
+            }
+        } else {
+            ans += 'b';
+            --b;
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
