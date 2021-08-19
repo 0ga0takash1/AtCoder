@@ -36,68 +36,47 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
+struct UnionFind {
+    vector<int64_t> r;
+
+    UnionFind(int64_t N) {
+        r = vector<int64_t>(N, -1);
+    }
+
+    int64_t root(int64_t x) {
+        if (r[x] < 0) return x;
+        return r[x] = root(r[x]);
+    }
+
+    bool unite(int64_t x, int64_t y) {
+        x = root(x);
+        y = root(y);
+        if (x == y) return false;
+        if (r[x] > r[y]) swap(x, y);
+        r[x] += r[y];
+        r[y] = x;
+        return true;
+    }
+
+    int64_t size(int64_t x) {
+        return -r[root(x)];
+    }
+};
+
 int main() {
     in1(n);
-    std::vector<int64_t> a, a2;
+    UnionFind uf(n+1);
+    std::vector<int64_t> a(n);
+    rep(i, a.size()) {
+        cin >> a[i];
+        --a[i];
+        if ( i*2 >= a.size() ) {
+            uf.unite(a[i], a[n-i-1]);
+        }
+    }
+
     int64_t ans = 0;
-    rep(i, n) {
-        int64_t num;
-        cin >> num;
-        if (n%2) {
-            if ( i < n/2 ) a.push_back(num);
-            else if ( i > n/2 ) a2.push_back(num);
-        } else {
-            if ( i < n/2 ) a.push_back(num);
-            else a2.push_back(num);
-        }
-    }
-    if ( n == 1 ) {
-        cout << ans << endl;
-        return 0;
-    }
-    /*
-    int64_t n = 200000, ans = 0;
-    vector<int64_t> a, a2;
-    rep(i, n) {
-        if ( i < n/2 ) a.push_back(i);
-        else a2.push_back(i);
-    }
-    */
-
-    reverse(ALL(a2));
-
-    // while (1) {
-    rep(i, n) {
-        // cout << "a" << endl;
-        int64_t size = a.size();
-        rep(j, size) {
-            if ( a[0] == a2[0] ) {
-                a.erase(a.begin());
-                a2.erase(a2.begin());
-            } else {
-                break;
-            }
-        }
-
-        if ( !a.size() ) {
-            cout << ans << endl;
-            return 0;
-        }
-
-        int64_t ch = a2[0];
-        rep(j, a.size()) {
-            if ( a[j] == ch ) {
-                a[j] = a[0];
-            }
-            if ( a2[j] == ch ) {
-                a2[j] = a[0];
-            }
-        }
-
-        // repi(i, a) cout << i << " ";
-        // repi(i, a2) cout << i << " ";
-        // cout << endl;
-        ++ans;
-    }
+    rep(i, n) if ( uf.r[i] < -1 ) ans += uf.size(i)-1;
+    cout << ans << endl;
     return 0;
 }
