@@ -65,7 +65,7 @@ struct UnionFind {
 
 int main() {
     in1(n);
-    UnionFind uf(n+1);
+    UnionFind uf(200010);
     std::vector<int64_t> a(n);
     rep(i, a.size()) {
         cin >> a[i];
@@ -74,9 +74,10 @@ int main() {
             uf.unite(a[i], a[n-i-1]);
         }
     }
+    rep(i, *max_element(ALL(a))) cout << uf.root(i) << endl; 
 
     int64_t ans = 0;
-    rep(i, n) if ( uf.r[i] < -1 ) ans += uf.size(i)-1;
+    rep(i, uf.r.size()) if ( uf.root(i) == i ) ans += uf.size(i)-1;
     cout << ans << endl;
     return 0;
 }
