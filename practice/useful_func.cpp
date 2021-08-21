@@ -1,45 +1,15 @@
-#include <bits/stdc++.h>
-using namespace std;
+#if !__INCLUDE_LEVEL__
+#include __FILE__
 
-typedef long long ll;
-typedef int64_t i6;
-
-#define rep(i, n) for (int64_t i = 0; i < n; ++i)
-#define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
-#define repb(i, l, n) for (int64_t i = l; i < n; ++i)
-#define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
-#define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
-#define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
-#define rep_(i, r) for (int64_t i = r; i > 0; --i)
-#define rep_2(i, r) for (int64_t i = r; i >= 0; --i)
-#define rep_b(i, r, l) for (int64_t i = r; i > l; --i)
-#define rep_b2(i, r, l) for (int64_t i = r; i >= l; --i)
-#define rep_c(i, r, l, d) for (int64_t i = r; i > l; i-=d)
-#define rep_c2(i, r, l, d) for (int64_t i = r; i >= l; i-=d)
-#define repf(i, l, c, d) for (int64_t i = l; c; i+=d)
-#define repi(a, b) for (auto&(a) : (b))
-#define ALL(v) (v).begin(), (v).end()
-#define Sort(x) sort(ALL(x))
-#define Sort_rev(x) Sort(x);reverse(ALL(x))
-#define Sort_pair(x, p) sort(ALL(x), (p))
-#define mp(a, b) make_pair((a), (b))
-#define Push_back(a, b) push_back( mp( (a), (b) ) )
-// #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
-#define ctoi(c) ((c)-'0')
-
-template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
-template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
-template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
-
-// π M_PI
+// π acos(-1)
 // deg = rad*180/M_PI
 
 double deg_to_rad( double deg ) {
-    return (deg*M_PI)/180;
+    return (deg*acos(-1))/180;
 }
 
 double rad_to_deg( double rad ) {
-    return (rad*180)/M_PI;
+    return (rad*180)/acos(-1);
 }
 
 const int inf = 0x3fffffff;
@@ -60,6 +30,7 @@ void Alphabet (char s) {
 }
 /*----------------------------------------------------------------------*/
 // 最大公約数
+// gcd(a, b) == 1 でaとbは互いに素
 int64_t gcd(int64_t a, int64_t b) {
     return b ? gcd(b, a%b) : a;
 }
@@ -71,6 +42,16 @@ int64_t ngcd(vector<int64_t> a){
         res = gcd(a[i], res);
     }
     return res;
+}
+
+// a以上b以下の組(n, m)でGCD(n, m)の最大値c
+int64_t arc_GCD(int64_t left, int64_t right) {
+    rep_(res, right) {
+        if ( (left+res-1)/res < right/res ) {
+            return res;
+        }
+    }
+    return 1;
 }
 /*----------------------------------------------------------------------*/
 // 最小公倍数
@@ -203,6 +184,39 @@ int64_t ABC_n (int64_t n) {
     return ans;
 }
 /*----------------------------------------------------------------------*/
+// 点(x, y)を点(ox, oy)を中心に半時計回りにtheta回転した座標を返す
+// first = x, second = y
+pair<long double, long double> rotate ( long double x, long double y,
+                                        long double ox, long double oy,
+                                        long double theta) {
+    x -= ox;
+    y -= oy;
+    return {x*cos(theta)-y*sin(theta)+ox, y*cos(theta)+x*sin(theta)+oy};
+}
+/*----------------------------------------------------------------------*/
+// aコの0とbコの1の並び替えの総数
+// (a+b)!/a!b!
+int64_t ab_a_b (int64_t a, int64_t b) {
+    int64_t res = 1, to_not_mul = min(a, b);
+    rep_b2(i, a+b, max(a, b)) {
+        if ( to_not_mul == 1 ) {
+            res *= i;
+        } else {
+            if ( !(i%to_not_mul) ) {
+                res *= i/to_not_mul;
+                --to_not_mul;
+            } else {
+                res *= i;
+            }
+            while ( !(res%to_not_mul) && to_not_mul != 1 ) {
+                res /= to_not_mul;
+                --to_not_mul;
+            }
+        }
+    }
+    return res;
+}
+/*----------------------------------------------------------------------*/
 // 整数nのd桁以下の切り捨て
 // truncate(123456789, 3) == 123456000
 // truncate(123456789, 5) == 123400000
@@ -234,6 +248,12 @@ int64_t round_up(int64_t n, int64_t d) {
         n/=ten;n*=ten;
     }
     return n;
+}
+
+// ガウス記号
+// floor_func(5, 2) == [2.5] == 2
+int64_t floor_func(int64_t a, int64_t b) {
+    return ((a-1)/b)+1;
 }
 /*----------------------------------------------------------------------*/
 // エラトステネスのふるい
@@ -607,3 +627,53 @@ int64_t Binary_search () {
 int main() {
     return 0;
 }
+
+#else
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef int64_t i6;
+
+#define in1(n) int64_t n;cin >> n;
+#define in2(n, m) int64_t n, m;cin >> n >> m;
+#define in3(n, m, k) int64_t n, m, k;cin >> n >> m >> k;
+#define in4(a, b, c, d) int64_t a, b, c, d;cin >> a >> b >> c >> d;
+#define rep(i, n) for (int64_t i = 0; i < n; ++i)
+#define rep2(i, n) for (int64_t i = 1; i <= n; ++i)
+#define repb(i, l, n) for (int64_t i = l; i < n; ++i)
+#define repb2(i, l, n) for (int64_t i = l; i <= n; ++i)
+#define repc(i, l, n, d) for (int64_t i = l; i < n; i+=d)
+#define repc2(i, l, n, d) for (int64_t i = l; i <= n; i+=d)
+/*
+#define rep_(i, r) for (int64_t i = r; i > 0; --i)
+#define rep_2(i, r) for (int64_t i = r; i >= 0; --i)
+#define rep_b(i, r, l) for (int64_t i = r; i > l; --i)
+#define rep_b2(i, r, l) for (int64_t i = r; i >= l; --i)
+#define rep_c(i, r, l, d) for (int64_t i = r; i > l; i-=d)
+#define rep_c2(i, r, l, d) for (int64_t i = r; i >= l; i-=d)
+*/
+#define rep_(i, r) for (int64_t i = r-1; i >= 0; --i)
+#define rep_2(i, r) for (int64_t i = r; i > 0; --i)
+#define rep_b(i, r, l) for (int64_t i = r; i >= l; --i)
+#define rep_b2(i, r, l) for (int64_t i = r; i > l; --i)
+#define rep_c(i, r, l, d) for (int64_t i = r; i >= l; i-=d)
+#define rep_c2(i, r, l, d) for (int64_t i = r; i > l; i-=d)
+#define repf(i, l, c, d) for (int64_t i = l; c; i+=d)
+#define repi(a, b) for (auto&(a) : (b))
+#define ALL(v) (v).begin(), (v).end()
+#define Sort(x) sort(ALL(x))
+#define Sort_rev(x) Sort(x);reverse(ALL(x))
+#define Sort_pair(x, p) sort(ALL(x), (p))
+#define vector2(a, n, k) std::vector<std::vector<int64_t>> a(n, std::vector<int64_t>(k))
+#define mp(a, b) make_pair((a), (b))
+#define Push_back(a, b) push_back( mp( (a), (b) ) )
+// #define Push_back(p, a, b) (p).push_back( make_pair( (a), (b) ) )
+#define ctoi(c) ((c)-'0')
+
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
+template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
+template<typename map,typename T> bool find_map(map m, T num) { auto itr = m.find(num); if ( itr == m.end() ) { return false; } return true; }
+
+#endif

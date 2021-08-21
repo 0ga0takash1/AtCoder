@@ -26,45 +26,66 @@ typedef std::vector<std::vector<int64_t> > Graph;
 #define Sort(x) sort(ALL(x))
 #define Sort_rev(x) Sort(x);reverse(ALL(x))
 #define Sort_pair(x, p) sort(ALL(x), (p))
-#define mp(a, b) make_pair((a), (b))
-#define Push_back(a, b) push_back( mp( (a), (b) ) )
+#define vector2(a, n, k) std::vector<std::vector<int64_t>> a(n, std::vector<int64_t>(k))
 #define ctoi(c) ((c)-'0')
-template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0;  }
-template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0;  }
+
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1;  } return 0; }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1;  } return 0; }
 template<typename V,typename T> bool find_num(V v, T num) { if ( find(ALL(v), num) == v.end() ) { return false; } return true; }
+template<typename map,typename T> bool find_map(map m, T num) { auto itr = m.find(num); if ( itr == m.end() ) { return false; } return true; }
+
 const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
+bool pair_Cf(const pair<int64_t, int64_t>& firstElof, const pair<int64_t, int64_t>& secondElof) {
+    return firstElof.first < secondElof.first;
+}
+
 int main() {
     in2(n, q);
-    std::vector<int64_t> a(n);
+    std::vector<int64_t> a(n), k(q), b, ans(q);
+    vector<pair<int64_t, int64_t> > p;
     rep(i, a.size()) {
         cin >> a[i];
+        if (!i) {
+            b.push_back(a[i]-1);
+        } else {
+            if ( a[i] == a[i-1]+1 ) {
+                b.push_back(b[b.size()-1]);
+            } else {
+                b.push_back( (a[i]-a[i-1]) +b[b.size()-1] -1 );
+            }
+        }
     }
-    std::vector<int64_t> k(q);
     rep(i, k.size()) {
         cin >> k[i];
+        p.push_back({k[i], i});
+    }
+    Sort_pair(p, pair_Cf);
+
+    int64_t s = 0, index = 0;
+    while ( s < q ) {
+        int64_t see = p[s].first;
+        if ( see <= b[b.size()-1] ) {
+            int64_t i = index;
+            while ( i < b.size() ) {
+                if ( see <= b[i] ) {
+                    while ( a[i] == a[i+1] ) ++i;
+
+                    ans[p[s].second] = a[i]-(b[i]-see)-1;
+                    index = i;
+                    break;
+                }
+                ++i;
+            }
+        } else {
+            ans[p[s].second] = a[a.size()-1]+(see-b[b.size()-1]);
+        }
+        ++s;
     }
 
-    std::vector<int64_t> v;
-    int64_t index = 0;
-    repb2(i, a[0], a[n-1]) {
-        if ( i != a[index] ) {
-            v.push_back(i);
-        } else {
-            index++;
-        }
-    }
+    repi(a, ans) cout << a << endl;
 
-    rep(i, k.size()) {
-        if ( k[i] < a[0] ) {
-            cout << k[i] << endl;
-        } else if ( k[i] > a[n-1]-n ) {
-            cout << k[i]+n << endl;
-        } else {
-            cout << v[k[i]-a[0]] << endl;
-        }
-    }
     return 0;
 }
