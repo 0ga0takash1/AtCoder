@@ -38,39 +38,19 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t Bs (int64_t x, vector<int64_t> v) {
-    int64_t ok = 0, ng = v.size();
-    while ( ok+1 < ng ) {
-        int64_t num = (ok+ng)/2;
-        if ( v[num] < x ) ok = num;
-        else ng = num;
-    }
-    return ok;
-}
-
 int main() {
     in2(l, q);
-    std::vector<int64_t> wood;
-    wood.push_back(0);
-    wood.push_back(l);
+    set<int64_t> s;
+    s.insert(0);
+    s.insert(l);
     std::vector<int64_t> c(q), x(q);
     rep(i, c.size()) {
         cin >> c[i] >> x[i];
         if ( c[i] == 1 ) {
-            wood.push_back(x[i]);
+            s.insert(x[i]);
         } else {
-            if ( c[i-1] != c[i] ) Sort(wood);
-            // int64_t num = Bs(x[i], wood);
-            // int64_t num = (ALL(wood), x[i]);
-            auto position = lower_bound(ALL(wood), x[i]);  // 3 を二分探索
-            int64_t num = distance(wood.begin(), position);
-            cout << wood[num+1]-wood[num] << endl;
-            // repb(j, 1, wood.size()) {
-            //     if ( x[i] < wood[j] ) {
-            //         cout << wood[j]-wood[j-1] << endl;
-            //         break;
-            //     }
-            // }
+            auto it = s.lower_bound(x[i]);
+            cout << *it - *prev(it) << endl;
         }
     }
     return 0;

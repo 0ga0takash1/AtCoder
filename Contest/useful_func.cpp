@@ -354,14 +354,6 @@ int64_t nCr_mod(int64_t n, int64_t r, int64_t mod) {
 }
 /*----------------------------------------------------------------------*/
 
-bool pair_Cf(const pair<int64_t, int64_t>& firstElof, const pair<int64_t, int64_t>& secondElof) {
-    return firstElof.first < secondElof.first;
-}
-
-bool pair_Cf_R(const pair<int64_t, int64_t>& firstElof, const pair<int64_t, int64_t>& secondElof) {
-    return firstElof.first > secondElof.first;
-}
-
 bool pair_Cs(const pair<string, int64_t>& firstElof, const pair<string, int64_t>& secondElof) {
     return firstElof.second < secondElof.second;
 }
