@@ -39,29 +39,19 @@ const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
 int main() {
-    in1(n);
-    vector<pair<int64_t, int64_t> > p(n);
-    vector<pair<int64_t, std::vector<int64_t> > > px, py;
-    rep(i, p.size()) {
-        in2(x, y);
-        p.push_back({x, y});
-        int64_t ex = 0, ey = 0;
-        rep(j, px.size()) {
-            if ( x == px[j].first ) {
-                ex = 1;
-                px[j].second.push_back(y);
-                break;
-            }
-        }
-        if (!ex) px.push_back({x, {y}});
-    }
-    Sort(p);
+    in1(x);
     int64_t ans = 0;
-    rep(i, p.size()-1) {
-        int64_t j = i+1;
-        while ( p[i].first == p[j].first ) {
-
-        }
+    if ( x >= 90 ) {
+        cout << "expert" << endl;
+        return 0;
     }
+    if ( x < 40 ) {
+        ans = 40-x;
+    } else if ( x < 70 ) {
+        ans = 70-x;
+    } else if ( x < 90 ) {
+        ans = 90-x;
+    }
+    cout << ans << endl;
     return 0;
 }

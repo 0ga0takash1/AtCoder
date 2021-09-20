@@ -107,10 +107,27 @@ void print_s ( std::vector<std::vector<char>> a ) {
 
 int main() {
     in1(n);
+    if ( n == 1 ) {
+        char s, t;
+        cin >> s >> t;
+        cout << ( (s == t)? "Yes" : "No" ) << endl;
+        return 0;
+    }
+    int64_t ss = 0, ts = 0;
     vector2(s, n, n);
-    rep(i, s.size()) rep(j, s[i].size()) cin >> s[i][j];
+    rep(i, s.size()) rep(j, s[i].size()) {
+        cin >> s[i][j];
+        if ( s[i][j] == '#' ) ++ss;
+    }
     vector2(t, n, n);
-    rep(i, t.size()) rep(j, t[i].size()) cin >> t[i][j];
+    rep(i, t.size()) rep(j, t[i].size()) {
+        cin >> t[i][j];
+        if ( t[i][j] == '#' ) ++ts;
+    }
+    if ( ss != ts ) {
+        cout << "No" << endl;
+        return 0;
+    }
     s = simple(s);
     t = simple(t);
 

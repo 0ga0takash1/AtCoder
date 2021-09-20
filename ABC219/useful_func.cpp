@@ -29,29 +29,6 @@ void Alphabet (char s) {
     return;
 }
 /*----------------------------------------------------------------------*/
-// 辞書順改造
-void modify_dic_order () {
-    string new_order;
-    cin >> new_order;
-    std::vector<int64_t> new_o(26);
-    rep(i, new_order.length()) {
-        new_o[new_order[i]-'a'] = i;
-    }
-    in1(n);
-    Graph S(n);
-    repi(v, S) {
-        string s;
-        cin >> s;
-        repi(c, s) v.push_back(new_o[c-'a']);
-    }
-    Sort(S);
-    repi(ans, S) {
-        repi(a, ans) cout << new_order[a];
-        cout << endl;
-    }
-    return;
-}
-/*----------------------------------------------------------------------*/
 // 最大公約数
 // gcd(a, b) == 1 でaとbは互いに素
 int64_t gcd(int64_t a, int64_t b) {
