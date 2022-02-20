@@ -43,11 +43,18 @@ int main() {
     cin >> s;
     in1(k);
 
-    int64_t dot = 0, sharp = 0;
-    rep(i, s.length()) ( s[i] == '.' ) ? ++dot : ++sharp;
-    if ( dot <= k ) {
-        cout << s.length() << endl;
-        return 0;
+    std::vector<int64_t> dot_cnt(s.size()+1, 0);
+    // if ( s[0] == '.' ) dot_cnt[0]=1;
+    rep(i, s.size()) {
+        dot_cnt[i+1] = dot_cnt[i];
+        if ( s[i] == '.' ) ++dot_cnt[i+1];
     }
+
+    int64_t ans = 0, r = 0;
+    rep(l, dot_cnt.size()) {
+        while ( r<s.size() && dot_cnt[r+1]-dot_cnt[l] <= k ) ++r;
+        chmax(ans, r-l);
+    }
+    cout << ans << endl;
     return 0;
 }

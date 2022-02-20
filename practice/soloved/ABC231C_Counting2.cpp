@@ -38,11 +38,11 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t Binary_search (std::vector<int64_t> a, int64_t x) {
-    int64_t ok = 0, ng = a.size()-1;
-    while ( ok+1 < ng ) {
+int64_t Binary_search (std::vector<int64_t> *a, int64_t x) {
+    int64_t ok = a->size(), ng = -1;
+    while ( ok-ng > 1 ) {
         int64_t num = (ok+ng)/2;
-        if ( x > a[num] ) ok = num;
+        if ( x <= a->at(num) ) ok = num;
         else ng = num;
     }
     return ok;
@@ -56,16 +56,20 @@ int main() {
     }
     Sort(a);
 
-    std::vector<int64_t> x(q);
-    rep(i, x.size()) {
-        cin >> x[i];
-        int64_t ans = n;
-        if ( x[i] > a.back() ) {
-            ans = 0;
-        } else if ( x[i] > a[0] ) {
-            ans -= Binary_search(a, x[i])+1;
-        }
-        cout << ans << endl;
+    // std::vector<int64_t> x(q);
+    // rep(i, x.size()) {
+    //     cin >> x[i];
+    //     int64_t ans = n;
+    //     if ( x[i] > a.back() ) {
+    //         ans = 0;
+    //     } else if ( x[i] > a[0] ) {
+    //         ans -= Binary_search(&a, x[i]);
+    //     }
+    //     cout << ans << endl;
+    // }
+    rep(i, q) {
+        in1(x);
+        cout << a.end()-lower_bound(ALL(a), x) << endl;
     }
     return 0;
 }

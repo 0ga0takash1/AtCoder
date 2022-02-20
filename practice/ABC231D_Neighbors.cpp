@@ -38,21 +38,19 @@ const int inf = 0x3fffffff;
 const int64_t INF = 0x3fffffffffffffff;
 const int64_t MOD = 1e9+7;
 
-int64_t bfs ( Graph G, int64_t start_num, std::vector<int64_t> seen ) {
+int64_t bfs ( std::vector<std::set<int64_t>> G ) {
+    vector<int64_t> seen(G.size(), 0);
     queue<pair<int64_t, int64_t>> q;
-    q.push(make_pair(start_num, -1));
+    q.push(make_pair(0, -1));
     while ( !q.empty() ) {
         int64_t num = q.front().first, prev = q.front().second;
         seen[num] = 1;
         q.pop();
-        rep(i, G[num].size()) {
-            int64_t see = G[num].at(i);
-            if ( seen[see] == 0 ) {
-                q.push(make_pair(see, num));
+        repi(i, G[num]) {
+            if ( seen[i] == 0 ) {
+                q.push(make_pair(i, num));
             } else {
-                if ( prev != -1 && see != prev ) {
-                    return 0;
-                }
+                if ( i != prev ) return 0;
             }
         }
     }
@@ -61,40 +59,17 @@ int64_t bfs ( Graph G, int64_t start_num, std::vector<int64_t> seen ) {
 
 int main() {
     in2(n, m);
-    std::vector<int64_t> a(m), b(m);
-    Graph G(n);
+    std::vector<std::set<int64_t>> G(n);
     int64_t end_flag = 0;
-    rep(i, a.size()) {
-        cin >> a[i] >> b[i];
-        --a[i];--b[i];
+    rep(i, m) {
+        in2(a, b);
+        --a;--b;
         if (!end_flag) {
-            G[a[i]].push_back(b[i]);
-            G[b[i]].push_back(a[i]);
-            if ( G[a[i]].size() > 2 || G[b[i]].size() > 2 ) end_flag = 1;
+            G[a].insert(b);
+            G[b].insert(a);
+            if ( G[a].size() > 2 || G[b].size() > 2 ) end_flag = 1;
         }
     }
-    if (end_flag) {
-        cout << "No" << endl;
-        return 0;
-    }
-
-    int64_t start = -1;
-    rep(i, G.size()) {
-        if ( G[i].size() == 1 ) {
-            start = i;
-            break;
-        }
-    }
-
-    std::vector<int64_t> seen(n, 0);
-    if ( start >= 0 ) {
-        cout << ( (bfs(G, start, seen))? "Yes" : "No" ) << endl;
-    } else {
-        if ( bfs(G, G[0][0], seen) ) {
-            cout << ( ( bfs(G, G[0][1], seen) )? "Yes" : "No" ) << endl;
-        } else {
-            cout << "No" << endl;
-        }
-    }
+    cout << ( (!end_flag && bfs(G))? "Yes" : "No" ) << endl;
     return 0;
 }

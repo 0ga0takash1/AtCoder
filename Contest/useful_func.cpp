@@ -635,14 +635,18 @@ int64_t bit_search (int64_t n, int64_t k, int64_t c[], int64_t d[]) {
 /*----------------------------------------------------------------------*/
 // 二分探索
 int64_t Binary_search () {
-    int64_t ok = 0, ng = INF;
-    while ( ok+1 < ng ) {
+    int64_t ok = INF, ng = -1;
+    while ( ok-ng > 1 ) {
         int64_t num = (ok+ng)/2;
         if ( /*条件*/1 ) ok = num;
         else ng = num;
     }
     return ok;
 }
+// num以上のmin
+// std::lower_bound(ALL(v), num);
+// numより大きい値のnin
+// std::upper_bound(ALL(v), num);
 /*----------------------------------------------------------------------*/
 
 int main() {
